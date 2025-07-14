@@ -43,7 +43,7 @@
   function formatCell(value, comparison) {
     const [green, red, yellow] = ['#c8e6c9', '#ffcdd2', '#fff9c4']
     const map = {
-      'equal':      [green,   '√'],
+      'equal':      [green,   '✓'],
       'different':  [red,     '×'],
       'close':      [yellow,  '○'],
       'too high':   [red,     '⇊'],
