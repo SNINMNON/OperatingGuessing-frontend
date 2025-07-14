@@ -43,17 +43,17 @@
   function formatCell(value, comparison) {
     const [green, red, yellow] = ['#c8e6c9', '#ffcdd2', '#fff9c4']
     const map = {
-      'equal':      [green,   '✔️'],
-      'different':  [red,     '✖️'],
-      'close':      [yellow,  '⚠️'],
-      'too high':   [red,     '🔽🔽'],
-      'too low':    [red,     '🔼🔼'],
-      'too late':   [red,     '⏪⏪'],
-      'too soon':   [red,     '⏩⏩'],
-      'close high': [yellow,  '🔽'],
-      'close low':  [yellow,  '🔼'],
-      'close late': [yellow,  '⏪'],
-      'close soon': [yellow,  '⏩']
+      'equal':      [green,   '√'],
+      'different':  [red,     '×'],
+      'close':      [yellow,  '○'],
+      'too high':   [red,     '⇊'],
+      'too low':    [red,     '⇈'],
+      'too late':   [red,     '⇇'],
+      'too soon':   [red,     '⇉'],
+      'close high': [yellow,  '↓'],
+      'close low':  [yellow,  '↑'],
+      'close late': [yellow,  '←'],
+      'close soon': [yellow,  '→']
     }
   
     const [bgColor, msg] = map[comparison] || ['#e0e0e0', '❔']
