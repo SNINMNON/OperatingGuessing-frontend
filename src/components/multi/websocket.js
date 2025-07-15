@@ -8,10 +8,9 @@ export const roomId = ref('')
 export const inRoom = ref(false)
 export const roomStat = ref({
     ready: false, // Whether the player is ready
-    gameStarted: false,
+    gameStarted: 0, // 0 for not started, 1 for started, 2 for ended (showing results)
     oponentJoined: false,
-    opponentReady: false,
-    gameWinner: null,
+    opponentReady: false
 })
 
 export const selfGuesses = ref([]) // List of {guess: Operator, comparison: GuessComparison}s
@@ -41,21 +40,20 @@ const listeners = {
                             roomStat.value.opponentReady = false
                             break
                         case 'start':
-                            roomStat.value.gameStarted = true
+                            roomStat.value.gameStarted = 1
                             break
                         case 'win':
+                            
                             roomStat.value = {
-                                gameStarted: false,
+                                gameStarted: 2,
                                 oponentJoined: true,
-                                opponentReady: false,
-                                gameWinner: msg.userId
+                                opponentReady: false
                             }
                         case 'disconnect':
                             roomStat.value = {
-                                gameStarted: false,
+                                gameStarted: 0,
                                 oponentJoined: false,
-                                opponentReady: false,
-                                gameWinner: null,
+                                opponentReady: false
                             }
                             break;
                     }
@@ -67,6 +65,7 @@ const listeners = {
                     }
                 }
                 break;
+
             case 'error':
                 if (msg.data.message === 'opponent not yet joined') {
                     roomStat.value.ready = false;
@@ -75,30 +74,35 @@ const listeners = {
                 close();
                 alert(`Error: ${msg.data.message}`);
                 break;
+
             case 'roomId': // created and joined room
                 roomId.value = msg.data.payload;
                 inRoom.value = true;
                 roomStat.value = {
-                    gameStarted: false,
+                    gameStarted: 0,
                     oponentJoined: true,
                     opponentReady: false, // player cannot ready before opponent joins
-                    gameWinner: null,
                 }
                 break;
+
             case 'self guess':
                 let payload = msg.data.payload;
                 payload.guess.release = new Date(payload.guess.release).toISOString();
                 selfGuesses.value.push(msg.data.payload);
                 break;
+
             case 'opponent guess':   
                 opponentCmp.value.push(msg.data.payload);
                 break;
+
             case 'opponent history':
-                for (op in msg.data.payload) {
+                for (let i = 0; i < msg.data.payload.length; i++) {
+                    let op = msg.data.payload[i];
                     op.release = new Date(op.release).toISOString();
                 }
                 opponentOp.value = msg.data.payload;
                 break;
+
             case 'suggest':
                 suggestions.value = msg.data.payload;
                 break;
@@ -110,10 +114,9 @@ const listeners = {
     onClose: () => {
         inRoom.value = false
         roomStat.value = {
-            gameStarted: false,
+            gameStarted: 0,
             oponentJoined: false,
             opponentReady: false,
-            gameWinner: null,
         }
         selfGuesses.value = []
         opponentCmp.value = []

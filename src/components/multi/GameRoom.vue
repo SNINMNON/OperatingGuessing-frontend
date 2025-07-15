@@ -3,13 +3,16 @@
         <button @click="$emit('back')" style="width: 10%;">返回</button>
         <h3>房间：{{ roomId }}</h3>
     </div>
-    <div v-if="roomStat.gameStarted">
+    <div v-if="roomStat.gameStarted === 1">
         <input v-model="query" 
             placeholder="输入干员名称..." 
             @input="onInput" 
             class="styled-input"/>
         <SuggestList :suggestions="suggestions" @select="onSelect" />
+    </div>
+    <div v-if="roomStat.gameStarted === 1 || roomStat.gameStarted === 2">
         <MultiTable />
+        <button v-if="roomStat.gameStarted === 2" @click="roomStat.gameStarted=0">dismiss</button>
     </div>
     <div v-else style="text-align: center; margin-top: 1rem;">
         <button @click="switchReady" style="width: 20%;">{{readyText}}</button>
