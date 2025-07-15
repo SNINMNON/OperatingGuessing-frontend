@@ -56,18 +56,34 @@ const listeners = {
                             }
                             break;
                     }
-                } else {
-                    // broadcasts from self: get room id
-                    if (msg.data.message === 'join') {
-                        roomId.value = msg.data.roomId;
-                        inRoom.value = true;
-                    } else if (msg.data.message === 'win') {
-                        roomStat.value = {
-                            gameStarted: 2,
-                            opponentJoined: true,
-                            opponentReady: false
-                        }
+                } else { // self
+                    switch(msg.data.message) {
+                        case 'join':
+                            roomStat.value = {
+                                gameStarted: 0,
+                                opponentJoined: true,
+                                opponentReady: false
+                            }
+                            roomId.value = msg.data.roomId;
+                            inRoom.value = true;
+                            break
+                        
+                        case 'win':
+                            roomStat.value = {
+                                gameStarted: 2,
+                                opponentJoined: true,
+                                opponentReady: false
+                            }
+                            break
+
+                        case 'ready':
+                            roomStat.value.ready = true;
+                            break;
+                        case 'unready':
+                            roomStat.value.ready = false;
+                            break; 
                     }
+                    
                 }
                 break;
 
@@ -85,8 +101,8 @@ const listeners = {
                 inRoom.value = true;
                 roomStat.value = {
                     gameStarted: 0,
-                    opponentJoined: true,
-                    opponentReady: false, // player cannot ready before opponent joins
+                    opponentJoined: false, // assume opponent has not joined yet
+                    opponentReady: false,
                 }
                 break;
 

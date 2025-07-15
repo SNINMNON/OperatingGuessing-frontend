@@ -46,10 +46,8 @@ defineEmits(['back'])
 async function switchReady() {
     if (roomStat.value.ready) {
         await sendMessage('unready')
-        roomStat.value.ready = false
     } else {
         await sendMessage('ready')
-        roomStat.value.ready = true
     }
 }
 
