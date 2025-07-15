@@ -20,12 +20,15 @@ defineProps({
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: white;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
   z-index: 1000;
-  width: 25%;
+  width: 30%;
+
+  left: 30%;
+  transform: translateX(-50%);
 }
 
 .suggestions li {

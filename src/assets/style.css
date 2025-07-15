@@ -40,12 +40,10 @@ body {
   }
   
   /* INPUTS */
-  input[type="text"],
-  input[type="query"],
-  input[type="password"],
+  input,
   textarea,
   select {
-    width: 50%;
+    width: 60%;
     padding: 0.7rem;
     margin-top: 0.3rem;
     margin-bottom: 1rem;
