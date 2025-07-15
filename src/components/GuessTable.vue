@@ -32,7 +32,8 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-	guesses: Array // Array of {guess: Operator, comparison: Comparison}
+	guesses: Array, // Array of {guess: Operator, comparison: Comparison}
+	showComparisonOnly: Boolean, // Whether to show only comparison icons
 })
 
 // Format each cell with background color and icon based on comparison result
@@ -57,36 +58,30 @@ function formatCell(value, comparison) {
 }
 
 // Generate table rows with formatted cells
-const formattedGuesses = computed(() =>
-  props.guesses.map(guess => {
-    if (!guess.guess) {
-      return {
-        cells: [
-          formatCell("", guess.comparison.name),
-          formatCell("", guess.comparison.role),
-          formatCell("", guess.comparison.rarity),
-          formatCell("", guess.comparison.gender),
-          formatCell("", guess.comparison.faction),
-          formatCell("", guess.comparison.position),
-          formatCell("", guess.comparison.race),
-          formatCell("", guess.comparison.release)
-        ]
-      };
-    } else {
-      return {
-        cells: [
-          formatCell(guess.guess.name, guess.comparison.name),
-          formatCell(guess.guess.role, guess.comparison.role),
-          formatCell(guess.guess.rarity, guess.comparison.rarity),
-          formatCell(guess.guess.gender, guess.comparison.gender),
-          formatCell(guess.guess.faction, guess.comparison.faction),
-          formatCell(guess.guess.position, guess.comparison.position),
-          formatCell(guess.guess.race, guess.comparison.race),
-          formatCell(guess.guess.release.split('T')[0], guess.comparison.release)
-        ]
-      };
-    }
-  })
-);
-
+const formattedGuesses = computed(() => {
+	return props.guesses.map(({ guess, comparison }) => {
+		// if we're only showing comparison icons, force value to ""
+		const getValue = field =>
+			props.showComparisonOnly
+				? ""
+				: (guess ? guess[field] : "")
+		return {
+			cells: [
+				formatCell(getValue('name'), comparison.name),
+				formatCell(getValue('role'), comparison.role),
+				formatCell(getValue('rarity'), comparison.rarity),
+				formatCell(getValue('gender'), comparison.gender),
+				formatCell(getValue('faction'), comparison.faction),
+				formatCell(getValue('position'), comparison.position),
+				formatCell(getValue('race'), comparison.race),
+				formatCell(
+					props.showComparisonOnly
+						? ""
+						: (guess && guess.release ? guess.release.split('T')[0] : ""),
+					comparison.release
+				)
+			]
+		}
+	})
+})
 </script>

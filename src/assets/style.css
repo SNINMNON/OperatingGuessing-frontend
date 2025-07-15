@@ -146,7 +146,7 @@ body {
   /* This wraps your page content */
   .page-wrapper {
     width: 100%;               /* Takes full browser width */
-    max-width: 960px;          /* Optional: limits width on large screens */
+    max-width: 1440px;         /* Optional: limits width on large screens */
     margin: 0 auto;       /* Push down slightly from top, center horizontally */
     padding: 1rem;
     box-sizing: border-box;

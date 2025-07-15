@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-const emit = defineEmits(['receiveOpponent'])
 
 let socket = null
 let isConnected = false
@@ -15,8 +14,8 @@ export const roomStat = ref({
     gameWinner: null,
 })
 
-export const selfGuesses = ref([]) // List of Guesses
-export const opponentCmp = ref([]) // List of GuessComparisons
+export const selfGuesses = ref([]) // List of {guess: Operator, comparison: GuessComparison}s
+export const opponentCmp = ref([]) // List of {comparison: GuessComparison}s
 export const opponentOp = ref([]) // List of Operators
 
 export const suggestions = ref([])
@@ -93,14 +92,12 @@ const listeners = {
                 break;
             case 'opponent guess':   
                 opponentCmp.value.push(msg.data.payload);
-                emit('receiveOpponent');
                 break;
             case 'opponent history':
                 for (op in msg.data.payload) {
                     op.release = new Date(op.release).toISOString();
                 }
                 opponentOp.value = msg.data.payload;
-                emit('receiveOpponent');
                 break;
             case 'suggest':
                 suggestions.value = msg.data.payload;
@@ -110,7 +107,19 @@ const listeners = {
                 console.warn('Unknown message type:', msg.type);
         }
     },
-    onClose: () => { console.log("WebSocket closed.") },
+    onClose: () => {
+        inRoom.value = false
+        roomStat.value = {
+            gameStarted: false,
+            oponentJoined: false,
+            opponentReady: false,
+            gameWinner: null,
+        }
+        selfGuesses.value = []
+        opponentCmp.value = []
+        opponentOp.value = []
+        console.log("WebSocket closed.") 
+    },
     onError: (e) => { console.error("WebSocket error:", e) },
 }
 
@@ -169,16 +178,6 @@ export async function close() {
             }
             socket.close()
         }
-        inRoom.value = false
-        roomStat.value = {
-            gameStarted: false,
-            oponentJoined: false,
-            opponentReady: false,
-            gameWinner: null,
-        }
-        selfGuesses.value = []
-        opponentCmp.value = []
-        opponentOp.value = []
         resolve()
     })
 }

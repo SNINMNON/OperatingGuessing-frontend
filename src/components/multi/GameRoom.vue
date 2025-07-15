@@ -1,6 +1,8 @@
 <template>
-    <div>房间：{{ roomId }}</div>
-    <button @click="$emit('back')">返回</button>
+    <div class="row">
+        <button @click="$emit('back')" style="width: 10%;">返回</button>
+        <h3>房间：{{ roomId }}</h3>
+    </div>
     <div v-if="roomStat.gameStarted">
         <input v-model="query" 
             placeholder="输入干员名称..." 
@@ -9,8 +11,8 @@
         <SuggestList :suggestions="suggestions" @select="onSelect" />
         <MultiTable />
     </div>
-    <div v-else>
-        <button @click="switchReady">{{readyText}}</button>
+    <div v-else style="text-align: center; margin-top: 1rem;">
+        <button @click="switchReady" style="width: 20%;">{{readyText}}</button>
     </div>
 </template>
 
@@ -21,7 +23,6 @@ import {
     roomId, roomStat,
 } from './websocket'
 import { suggestNames } from '../../api.js'
-import GuessTable from '../GuessTable.vue'
 import SuggestList from '../SuggestList.vue'
 import MultiTable from './MultiTable.vue'
 

@@ -1,22 +1,17 @@
 <template>
-    <div class="split left">
-        <div class="centered">
-            <GuessTable
-                :guesses="selfGuesses" />
-        </div>
+    <div class="guess‑tables‑flex">
+      <div class="table‑wrapper">
+        <GuessTable :guesses="selfGuesses" :show-comparison-only="false"/>
+      </div>
+      <div class="table‑wrapper">
+        <GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly"/>
+      </div>
     </div>
-
-    <div class="split right">
-        <div class="centered">
-            <GuessTable
-                :guesses="opponentGuesses" />
-            
-        </div>
-    </div>
-</template>
+  </template>
+  
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import GuessTable from '../GuessTable.vue';
 import { 
     selfGuesses,
@@ -24,23 +19,49 @@ import {
     opponentOp
 } from './websocket';
 
-const opponentGuesses = ref([]);
+const opponentGuesses = computed(() => assembleOpponentGuesses())
+const showComparisonOnly = ref(true);
+
 function assembleOpponentGuesses() {
-    opponentGuesses.value = [];
-    for (let i = 0; i < opponentCmp.value.length; i++) {
-        const cmp = opponentCmp.value[i];
-        if (opponentOp) {
-            const op = opponentOp.value[i];
-            opponentGuesses.value.push({
-                comparison:cmp, guess: op
-            })
-        } else {
-            opponentGuesses.value.push({ 
-                comparison: cmp, guess: null
-            })
+    if (opponentOp.value.length === 0) {
+        return opponentCmp.value
+    } else {
+        showComparisonOnly.value = false;
+        let guesses = [];
+        for (let i = 0; i < opponentOp.length; i++) {
+            guesses.push({
+                guess: opponentOp[i],
+                comparison: opponentCmp.value[i].comparison
+            });
         }
-        
+        return guesses
     }
 }
-
 </script>
+
+<style scoped>
+.guess‑tables‑flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table‑wrapper {
+  flex: 1 1 calc(50% - 1rem);
+  min-width: 250px;
+}
+
+/* target your GuessTable: you could add a class on the component wrapper */
+.table‑wrapper table {
+  width: 100%;
+  /* make text smaller */
+  font-size: 0.75rem;
+}
+/* tighten up the cell padding too */
+.table‑wrapper th,
+.table‑wrapper td {
+  padding: 0.3rem 0.4rem;
+  white-space: nowrap; /* keep each cell on one line */
+}
+</style>
+
