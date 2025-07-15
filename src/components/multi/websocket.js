@@ -9,7 +9,7 @@ export const inRoom = ref(false)
 export const roomStat = ref({
     ready: false, // Whether the player is ready
     gameStarted: 0, // 0 for not started, 1 for started, 2 for ended (showing results)
-    oponentJoined: false,
+    opponentJoined: false,
     opponentReady: false
 })
 
@@ -31,7 +31,7 @@ const listeners = {
                 if (msg.userId !== currentUserId.value) { 
                     switch(msg.data.message) {
                         case 'join':
-                            roomStat.value.oponentJoined = true
+                            roomStat.value.opponentJoined = true
                             break
                         case 'ready':
                             roomStat.value.opponentReady = true
@@ -43,16 +43,15 @@ const listeners = {
                             roomStat.value.gameStarted = 1
                             break
                         case 'win':
-                            
                             roomStat.value = {
                                 gameStarted: 2,
-                                oponentJoined: true,
+                                opponentJoined: true,
                                 opponentReady: false
                             }
                         case 'disconnect':
                             roomStat.value = {
-                                gameStarted: 0,
-                                oponentJoined: false,
+                                gameStarted: 2,
+                                opponentJoined: false,
                                 opponentReady: false
                             }
                             break;
@@ -62,6 +61,12 @@ const listeners = {
                     if (msg.data.message === 'join') {
                         roomId.value = msg.data.roomId;
                         inRoom.value = true;
+                    } else if (msg.data.message === 'win') {
+                        roomStat.value = {
+                            gameStarted: 2,
+                            opponentJoined: true,
+                            opponentReady: false
+                        }
                     }
                 }
                 break;
@@ -80,7 +85,7 @@ const listeners = {
                 inRoom.value = true;
                 roomStat.value = {
                     gameStarted: 0,
-                    oponentJoined: true,
+                    opponentJoined: true,
                     opponentReady: false, // player cannot ready before opponent joins
                 }
                 break;
@@ -114,8 +119,8 @@ const listeners = {
     onClose: () => {
         inRoom.value = false
         roomStat.value = {
-            gameStarted: 0,
-            oponentJoined: false,
+            gameStarted: 2,
+            opponentJoined: false,
             opponentReady: false,
         }
         selfGuesses.value = []

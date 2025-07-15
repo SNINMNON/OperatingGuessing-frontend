@@ -28,12 +28,13 @@ function assembleOpponentGuesses() {
     } else {
         showComparisonOnly.value = false;
         let guesses = [];
-        for (let i = 0; i < opponentOp.length; i++) {
+        for (let i = 0; i < opponentOp.value.length; i++) {
             guesses.push({
-                guess: opponentOp[i],
+                guess: opponentOp.value[i],
                 comparison: opponentCmp.value[i].comparison
             });
         }
+        console.log(guesses);
         return guesses
     }
 }

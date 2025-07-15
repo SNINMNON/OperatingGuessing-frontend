@@ -1,6 +1,7 @@
 <template>
     <div class="row">
         <button @click="$emit('back')" style="width: 10%;">返回</button>
+        <h3>对手状态：{{ opponentStat }}</h3>
         <h3>房间：{{ roomId }}</h3>
     </div>
     <div v-if="roomStat.gameStarted === 1">
@@ -12,7 +13,7 @@
     </div>
     <div v-if="roomStat.gameStarted === 1 || roomStat.gameStarted === 2">
         <MultiTable />
-        <button v-if="roomStat.gameStarted === 2" @click="roomStat.gameStarted=0">dismiss</button>
+        <button v-if="roomStat.gameStarted === 2" @click="roomStat.gameStarted=0">关闭表格</button>
     </div>
     <div v-else style="text-align: center; margin-top: 1rem;">
         <button @click="switchReady" style="width: 20%;">{{readyText}}</button>
@@ -30,6 +31,13 @@ import SuggestList from '../SuggestList.vue'
 import MultiTable from './MultiTable.vue'
 
 const readyText = computed(() => roomStat.value.ready ? '取消准备' : '准备')
+const opponentStat = computed(() => {
+    if (roomStat.value.opponentJoined) {
+        return roomStat.value.opponentReady ? '已准备' : '未准备'
+    } else {
+        return '未加入'
+    }
+})
 const query = ref('');
 const suggestions = ref([]);
 
