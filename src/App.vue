@@ -7,8 +7,8 @@
 		<button @click="mode = 'multi'">双人模式</button>
 		<br /> <br />
 		<div class="row">
-			<div style="font-size: xx-small; margin: 0%;">作者：SNINMNON</div>
-			<a style="font-size: xx-small; margin: 0%;" href="https://github.com/SNINMNON/OperatorGuessing">Github 仓库</a>
+			<div style="font-size: 12px; margin: 0;">作者：SNINMNON</div>
+			<a style="font-size: 12px; margin: 0;" href="https://github.com/SNINMNON/OperatorGuessing">Github 仓库</a>
 		</div>
 	</div>
 	<div v-else-if="mode === 'single'">
@@ -30,6 +30,6 @@ const mode = ref('choose');
 
 <style scoped>
 button {
-	width: 20%;
+    width: 200px;
 }
 </style>

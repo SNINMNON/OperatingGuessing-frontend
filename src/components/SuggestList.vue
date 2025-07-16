@@ -27,11 +27,11 @@ defineProps({
   left: 50%; /* 将列表左边缘定位到中间 */
   transform: translateX(-50%); /* 向左移动自身宽度的一半，实现完美居中 */
   z-index: 1000;
-  width: 26%; /* 保持你原有的宽度 */
+  width: 200px; /* 保持你原有的宽度 */
 }
 
 .suggestions li {
-  padding: 0.6rem 1rem;
+  padding: 9px 16px;
   cursor: pointer;
   transition: background 0.2s ease;
   text-align: left;

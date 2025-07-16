@@ -16,7 +16,7 @@
 			<tr v-for="(row, rowIndex) in formattedGuesses" :key="rowIndex">
 				<td v-for="(cell, cellIndex) in row.cells" :key="cellIndex" :style="{
 					backgroundColor: cell.bgColor,
-					padding: '0.5rem',
+					padding: '8px',
 					whiteSpace: 'nowrap',
 					textAlign: 'center'
 				}">

@@ -1,9 +1,9 @@
 <template>
     <div class="row">
         <h3>对手状态：{{ opponentStat }} </h3>
-        <div style="width: 8%;"></div>
+        <div style="width: 60px;"></div>
         <h3> 房间：{{ socket.roomId }} </h3>
-        <div style="width: 12%;"></div>
+        <div style="width: 90px;"></div>
         <button @click="closeTable; $emit('back')">返回</button>
     </div>
     <div v-if="socket.roomStat.gameStarted === 1" style="text-align: center;">
@@ -17,8 +17,8 @@
         <MultiTable />
         <button v-if="socket.roomStat.gameStarted === 2" @click="closeTable">关闭表格</button>
     </div>
-    <div v-else style="text-align: center; margin-top: 1rem;">
-        <button @click="switchReady" style="width: 20%;">{{readyText}}</button>
+    <div v-else style="text-align: center; margin-top: 16px;">
+        <button @click="switchReady" style="width: 150px;">{{readyText}}</button>
     </div>
 </template>
 
@@ -80,9 +80,9 @@ onUnmounted(async () => {
 </script>
 
 <style scoped>
-  .button-group {
+.button-group {
     display: flex;
-    gap: 31.5%; /* Adjust this value as needed */
+    gap: 315px;
     justify-content: center;
-  }
+}
 </style>

@@ -41,25 +41,23 @@ function assembleOpponentGuesses() {
 .guess‑tables‑flex {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .table‑wrapper {
-  flex: 1 1 calc(50% - 1rem);
+  flex: 1 1 calc(50% - 16px);
   min-width: 250px;
 }
 
-/* target your GuessTable: you could add a class on the component wrapper */
 .table‑wrapper table {
   width: 100%;
-  /* make text smaller */
-  font-size: 0.75rem;
+  font-size: 12px;
 }
-/* tighten up the cell padding too */
+
 .table‑wrapper th,
 .table‑wrapper td {
-  padding: 0.3rem 0.4rem;
-  white-space: nowrap; /* keep each cell on one line */
+  padding: 5px 6px;
+  white-space: nowrap;
 }
 </style>
 
