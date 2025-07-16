@@ -3,7 +3,7 @@
         <h3>对手状态：{{ opponentStat }} </h3>
         
         <div style="width: 8%;"></div>
-        <h3> 房间：{{ roomId }}</h3>
+        <h3> 房间：{{ roomId }} </h3>
         <div style="width: 12%;"></div>
         <button @click="$emit('back')">返回</button>
     </div>
@@ -44,7 +44,7 @@ const opponentStat = computed(() => {
 const query = ref('');
 const suggestions = ref([]);
 
-defineEmits(['back'])
+const emit = defineEmits(['back'])
 
 async function switchReady() {
     if (roomStat.value.ready) {

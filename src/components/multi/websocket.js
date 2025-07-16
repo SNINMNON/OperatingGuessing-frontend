@@ -19,6 +19,8 @@ export const opponentOp = ref([]) // List of Operators
 
 export const suggestions = ref([])
 
+export const findPublicStat = ref('')
+
 const listeners = {
     onOpen: () => { 
         console.log("Connected to server.")
@@ -76,12 +78,19 @@ const listeners = {
                 break
 
             case 'error':
-                if (msg.data.message === 'opponent not yet joined') {
-                    roomStat.value.ready = false;
-                    break;
+                switch(msg.data.message) {
+                    case 'opponent not yet joined':
+                        roomStat.value.ready = false;
+                        break;
+                    case 'no available public room':
+                        findPublicStat.value = '没有可用的公共房间，请稍后再试';
+                        setTimeout(() => { findPublicStat.value = '' }, 3000);
+                        break;
+                    default:
+                        close();
+                        alert(`错误: ${msg.data.message}`);
+                        break;
                 }
-                close();
-                alert(`错误: ${msg.data.message}`);
                 break;
 
             case 'roomId': // created and joined room

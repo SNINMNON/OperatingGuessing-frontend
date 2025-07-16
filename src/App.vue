@@ -27,6 +27,6 @@ const mode = ref('choose');
 
 <style scoped>
   button {
-    width: 75%;
+    width: 20%;
   }
 </style>
