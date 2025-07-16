@@ -5,6 +5,8 @@
       <button @click="mode = 'single'">单人模式</button>
       <br/> <br/>
       <button @click="mode = 'multi'">双人模式</button>
+      <br/> <br/>
+      <a style="font-size: xx-small; margin: 0%;" href="https://space.bilibili.com/248944741">作者：SNINMNON</a>
     </div>
     <div v-else-if="mode==='single'">
       <SinglePlayerStart @back="mode='choose'"/>
