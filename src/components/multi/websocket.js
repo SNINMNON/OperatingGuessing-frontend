@@ -38,6 +38,7 @@ const listeners = {
                             inRoom.value = true
                         } else {
                             roomStat.value.opponentJoined = true;
+                            alert('对手已加入房间')
                         }
                         break
 
@@ -53,6 +54,7 @@ const listeners = {
 
                     case 'start':
                         roomStat.value.gameStarted = 1
+                        alert('游戏开始！')
                         break
 
                     case 'win':
@@ -60,6 +62,7 @@ const listeners = {
                         roomStat.value.opponentJoined = true
                         roomStat.value.opponentReady = false
                         roomStat.value.ready = false
+                        alert(fromSelf ? '你赢了🎉' : '你输了🥲')
                         break
 
                     case 'disconnect': // opponent disconnected
@@ -67,6 +70,7 @@ const listeners = {
                         roomStat.value.opponentJoined = false
                         roomStat.value.opponentReady = false
                         roomStat.value.ready = false
+                        alert('对手已断开连接')
                         break
                 }
                 break
@@ -77,7 +81,7 @@ const listeners = {
                     break;
                 }
                 close();
-                alert(`Error: ${msg.data.message}`);
+                alert(`错误: ${msg.data.message}`);
                 break;
 
             case 'roomId': // created and joined room
