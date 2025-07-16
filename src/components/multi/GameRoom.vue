@@ -1,10 +1,13 @@
 <template>
     <div class="row">
-        <button @click="$emit('back')" style="width: 10%;">返回</button>
-        <h3>对手状态：{{ opponentStat }}</h3>
-        <h3>房间：{{ roomId }}</h3>
+        <h3>对手状态：{{ opponentStat }} </h3>
+        
+        <div style="width: 8%;"></div>
+        <h3> 房间：{{ roomId }}</h3>
+        <div style="width: 12%;"></div>
+        <button @click="$emit('back')">返回</button>
     </div>
-    <div v-if="roomStat.gameStarted === 1">
+    <div v-if="roomStat.gameStarted === 1" style="text-align: center;">
         <input v-model="query" 
             placeholder="输入干员名称..." 
             @input="onInput" 
@@ -70,3 +73,11 @@ onUnmounted(async () => {
     await close();
 })
 </script>
+
+<style scoped>
+  .button-group {
+    display: flex;
+    gap: 31.5%; /* Adjust this value as needed */
+    justify-content: center;
+  }
+</style>

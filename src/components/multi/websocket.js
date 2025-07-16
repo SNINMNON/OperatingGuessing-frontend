@@ -27,65 +27,49 @@ const listeners = {
         console.log("Received message: ", msg.type)
         switch(msg.type) {
             case 'broadcast':
-                // broadcasts from opponent / server
-                if (msg.userId !== currentUserId.value) { 
-                    switch(msg.data.message) {
-                        case 'join':
+                let fromSelf = msg.userId === currentUserId.value;
+                switch(msg.data.message) {
+                    case 'join':
+                        if (fromSelf) {
+                            roomStat.value.gameStarted = 0
                             roomStat.value.opponentJoined = true
-                            break
-                        case 'ready':
-                            roomStat.value.opponentReady = true
-                            break
-                        case 'unready':
                             roomStat.value.opponentReady = false
-                            break
-                        case 'start':
-                            roomStat.value.gameStarted = 1
-                            break
-                        case 'win':
-                            roomStat.value = {
-                                gameStarted: 2,
-                                opponentJoined: true,
-                                opponentReady: false
-                            }
-                        case 'disconnect':
-                            roomStat.value = {
-                                gameStarted: 2,
-                                opponentJoined: false,
-                                opponentReady: false
-                            }
-                            break;
-                    }
-                } else { // self
-                    switch(msg.data.message) {
-                        case 'join':
-                            roomStat.value = {
-                                gameStarted: 0,
-                                opponentJoined: true,
-                                opponentReady: false
-                            }
                             roomId.value = msg.data.roomId;
-                            inRoom.value = true;
-                            break
-                        
-                        case 'win':
-                            roomStat.value = {
-                                gameStarted: 2,
-                                opponentJoined: true,
-                                opponentReady: false
-                            }
-                            break
+                            inRoom.value = true
+                        } else {
+                            roomStat.value.opponentJoined = true;
+                        }
+                        break
 
-                        case 'ready':
-                            roomStat.value.ready = true;
-                            break;
-                        case 'unready':
-                            roomStat.value.ready = false;
-                            break; 
-                    }
-                    
+                    case 'ready':
+                        if (fromSelf) roomStat.value.ready = true
+                        else roomStat.value.opponentReady = true
+                        break
+
+                    case 'unready':
+                        if (fromSelf) roomStat.value.ready = false
+                        else roomStat.value.opponentReady = false
+                        break
+
+                    case 'start':
+                        roomStat.value.gameStarted = 1
+                        break
+
+                    case 'win':
+                        roomStat.value.gameStarted = 2
+                        roomStat.value.opponentJoined = true
+                        roomStat.value.opponentReady = false
+                        roomStat.value.ready = false
+                        break
+
+                    case 'disconnect': // opponent disconnected
+                        roomStat.value.gameStarted = 2
+                        roomStat.value.opponentJoined = false
+                        roomStat.value.opponentReady = false
+                        roomStat.value.ready = false
+                        break
                 }
-                break;
+                break
 
             case 'error':
                 if (msg.data.message === 'opponent not yet joined') {
@@ -99,11 +83,9 @@ const listeners = {
             case 'roomId': // created and joined room
                 roomId.value = msg.data.payload;
                 inRoom.value = true;
-                roomStat.value = {
-                    gameStarted: 0,
-                    opponentJoined: false, // assume opponent has not joined yet
-                    opponentReady: false,
-                }
+                roomStat.value.gameStarted = 0
+                roomStat.value.opponentJoined = false // assume opponent has not joined yet
+                roomStat.value.opponentReady = false
                 break;
 
             case 'self guess':
@@ -130,15 +112,14 @@ const listeners = {
 
             default:
                 console.warn('Unknown message type:', msg.type);
+            
         }
     },
     onClose: () => {
         inRoom.value = false
-        roomStat.value = {
-            gameStarted: 2,
-            opponentJoined: false,
-            opponentReady: false,
-        }
+        roomStat.value.gameStarted = 2
+        roomStat.value.opponentJoined = false
+        roomStat.value.opponentReady = false
         selfGuesses.value = []
         opponentCmp.value = []
         opponentOp.value = []

@@ -4,11 +4,15 @@
         <GameRoom @back="handleBack"/>
     </div>
     <div v-else style="text-align:center">
-        <button @click="createRoom" style="width: 25%;">创建房间</button>
-        <button @click="$emit('back')" style="width:20%;">返回首页</button>
-        <br /> <br />
+        <div class="button-group">
+            <div></div>
+            <button @click="$emit('back')">返回首页</button>
+        </div>
+        <br /> 
         <input v-model="joinRoomId" placeholder="输入房间号" style="width: 30%;" />
         <button @click="joinRoom">加入房间</button>
+        <br /> <br />
+        <button @click="createRoom" style="width: 39%;">创建房间</button>
     </div>
 </template>
 
@@ -47,3 +51,11 @@ function handleBack() {
   });
 }
 </script>
+
+<style scoped>
+  .button-group {
+    display: flex;
+    gap: 31.5%; /* Adjust this value as needed */
+    justify-content: center;
+  }
+</style>

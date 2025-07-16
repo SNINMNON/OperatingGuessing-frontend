@@ -34,7 +34,7 @@ function assembleOpponentGuesses() {
                 comparison: opponentCmp.value[i].comparison
             });
         }
-        console.log(guesses);
+        //console.log(guesses);
         return guesses
     }
 }

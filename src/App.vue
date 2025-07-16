@@ -1,6 +1,7 @@
 <template>
     <div style="text-align:center" v-if="mode==='choose'"> 
       <h1>猜干员 - 明日方舟</h1>
+      <br />
       <button @click="mode = 'single'">单人模式</button>
       <br/> <br/>
       <button @click="mode = 'multi'">双人模式</button>

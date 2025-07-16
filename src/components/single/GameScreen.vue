@@ -6,6 +6,7 @@
             class="styled-input"/>
         <button @click="onRestart">重新开始</button>
         <button @click="$emit('back')">返回</button>
+        <br />
         <span style="white-space: pre;">红/黄/绿：错误/接近/正确；       →/↑代表谜底干员的时间更晚/星级更高;            当前星级：{{showRarity()}}</span>
         <SuggestList :suggestions="suggestions" @select="onSelect" />
         <GuessTable :guesses="guesses" />
