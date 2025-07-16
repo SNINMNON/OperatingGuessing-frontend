@@ -34,11 +34,14 @@ export const useWebSocketStore = defineStore('websocket', () => {
 							roomStat.value.gameStarted = 0
 							roomStat.value.opponentJoined = true
 							roomStat.value.opponentReady = false
+							roomStat.value.ready = false
 							if (fromSelf) {
 								roomId.value = msg.data.roomId
 								inRoom.value = true
+								break
 							} else {
 								alert('对手已加入房间')
+								break
 							}
 							break
 						case 'ready':
@@ -76,6 +79,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 							roomStat.value.ready = false
 							break
 						case 'no available public room':
+							close()
 							findPublicStat.value = '没有可用的公共房间，请稍后再试'
 							setTimeout(() => { findPublicStat.value = '' }, 3000)
 							break
@@ -92,6 +96,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 					roomStat.value.gameStarted = 0
 					roomStat.value.opponentJoined = false
 					roomStat.value.opponentReady = false
+					roomStat.value.ready = false
 					break
 
 				case 'self guess':
@@ -123,6 +128,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 			roomStat.value.gameStarted = 2
 			roomStat.value.opponentJoined = false
 			roomStat.value.opponentReady = false
+			roomStat.value.ready = false
 			selfGuesses.value = []
 			opponentCmp.value = []
 			opponentOp.value = []

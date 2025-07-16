@@ -4,7 +4,7 @@
         <div style="width: 8%;"></div>
         <h3> 房间：{{ socket.roomId }} </h3>
         <div style="width: 12%;"></div>
-        <button @click="$emit('back')">返回</button>
+        <button @click="closeTable; $emit('back')">返回</button>
     </div>
     <div v-if="socket.roomStat.gameStarted === 1" style="text-align: center;">
         <input v-model="query" 
@@ -15,7 +15,7 @@
     </div>
     <div v-if="socket.roomStat.gameStarted === 1 || socket.roomStat.gameStarted === 2">
         <MultiTable />
-        <button v-if="socket.roomStat.gameStarted === 2" @click="socket.roomStat.gameStarted=0">关闭表格</button>
+        <button v-if="socket.roomStat.gameStarted === 2" @click="closeTable">关闭表格</button>
     </div>
     <div v-else style="text-align: center; margin-top: 1rem;">
         <button @click="switchReady" style="width: 20%;">{{readyText}}</button>
@@ -64,6 +64,14 @@ async function onSelect(name) {
     await socket.sendMessage('guess', { guess: name });
     query.value = '';
     suggestions.value = [];
+}
+
+function closeTable() {
+    socket.roomStat.ready = false;
+    socket.roomStat.gameStarted = 0
+    socket.selfGuesses = [];
+    socket.opponentOp = [];
+    socket.opponentCmp = [];
 }
 
 onUnmounted(async () => {
