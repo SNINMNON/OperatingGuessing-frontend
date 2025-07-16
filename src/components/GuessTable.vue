@@ -1,31 +1,33 @@
 <template>
-	<table>
-		<thead>
-			<tr>
-				<th>姓名</th>
-				<th>职业</th>
-				<th>星级</th>
-				<th>性别</th>
-				<th>阵营</th>
-				<th>站位</th>
-				<th>种族</th>
-				<th>实装时间</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="(row, rowIndex) in formattedGuesses" :key="rowIndex">
-				<td v-for="(cell, cellIndex) in row.cells" :key="cellIndex" :style="{
-					backgroundColor: cell.bgColor,
-					padding: '8px',
-					whiteSpace: 'nowrap',
-					textAlign: 'center'
-				}">
-					{{ cell.value }}
-					<small>{{ cell.msg }}</small>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="table-container">
+		<table class="guess-table">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>职业</th>
+					<th>星级</th>
+					<th>性别</th>
+					<th>阵营</th>
+					<th>站位</th>
+					<th>种族</th>
+					<th>实装时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(row, rowIndex) in formattedGuesses" :key="rowIndex">
+					<td v-for="(cell, cellIndex) in row.cells" :key="cellIndex" :style="{
+						backgroundColor: cell.bgColor,
+						padding: '8px',
+						whiteSpace: 'nowrap',
+						textAlign: 'center'
+					}">
+						{{ cell.value }}
+						<small>{{ cell.msg }}</small>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <script setup>
@@ -85,3 +87,47 @@ const formattedGuesses = computed(() => {
 	})
 })
 </script>
+
+<style scoped>
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.guess-table {
+  min-width: 600px;
+}
+
+/* 手机端表格适中缩小，保持可读性 */
+@media screen and (max-width: 768px) {
+  .table-container {
+    overflow-x: auto; /* 恢复横向滚动 */
+  }
+  
+  .guess-table {
+    min-width: 500px; /* 适当减少最小宽度 */
+    font-size: 12px; /* 调大字体 */
+  }
+  
+  .guess-table th,
+  .guess-table td {
+    padding: 4px 3px; /* 适中的内边距 */
+    font-size: 11px; /* 可读的字体大小 */
+    white-space: nowrap;
+  }
+}
+
+/* 超小屏幕稍微再缩小 */
+@media screen and (max-width: 480px) {
+  .guess-table {
+    min-width: 450px;
+    font-size: 11px;
+  }
+  
+  .guess-table th,
+  .guess-table td {
+    padding: 3px 2px;
+    font-size: 10px;
+  }
+}
+</style>

@@ -1,4 +1,3 @@
-import 'amfe-flexible'
 import './assets/style.css'
 
 import { createApp } from 'vue'

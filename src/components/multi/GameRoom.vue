@@ -1,9 +1,9 @@
 <template>
     <div class="row">
         <h3>对手状态：{{ opponentStat }} </h3>
-        <div style="width: 60px;"></div>
+        <div class="spacer-small"></div>
         <h3> 房间：{{ socket.roomId }} </h3>
-        <div style="width: 90px;"></div>
+        <div class="spacer-large"></div>
         <button @click="closeTable; $emit('back')">返回</button>
     </div>
     <div v-if="socket.roomStat.gameStarted === 1" style="text-align: center;">
@@ -84,5 +84,34 @@ onUnmounted(async () => {
     display: flex;
     gap: 315px;
     justify-content: center;
+}
+
+.spacer-small {
+    width: 20px;
+}
+
+.spacer-large {
+    width: 90px;
+}
+
+/* 手机端适配 */
+@media screen and (max-width: 768px) {
+    .spacer-small {
+        width: 10px;
+    }
+    
+    .spacer-large {
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .spacer-small {
+        width: 5px;
+    }
+    
+    .spacer-large {
+        width: 15px;
+    }
 }
 </style>

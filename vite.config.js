@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import pxtorem from 'postcss-pxtorem'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -26,9 +27,24 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  css: {
+    postcss: {
+      plugins: [
+        pxtorem({
+          rootValue: 16, // 改为标准的16px
+          propList: ['*'],
+          selectorBlackList: ['.ignore', '.hairlines'],
+          minPixelValue: 1,
+          mediaQuery: true, // 改为true，允许媒体查询转换
+        })
+      ]
+    }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
 })
+
+
