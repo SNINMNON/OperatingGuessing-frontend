@@ -1,7 +1,7 @@
 <template>
     <div class="guess‑tables‑flex">
       <div class="table‑wrapper">
-        <GuessTable :guesses="selfGuesses" :show-comparison-only="false"/>
+        <GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false"/>
       </div>
       <div class="table‑wrapper">
         <GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly"/>
@@ -13,25 +13,22 @@
 <script setup>
 import { computed, ref } from 'vue';
 import GuessTable from '../GuessTable.vue';
-import { 
-    selfGuesses,
-    opponentCmp, 
-    opponentOp
-} from './websocket';
+import { useWebSocketStore } from './websocket'
+const socket = useWebSocketStore()
 
 const opponentGuesses = computed(() => assembleOpponentGuesses())
 const showComparisonOnly = ref(true);
 
 function assembleOpponentGuesses() {
-    if (opponentOp.value.length === 0) {
-        return opponentCmp.value
+    if (socket.opponentOp.length === 0) {
+        return socket.opponentCmp
     } else {
         showComparisonOnly.value = false;
         let guesses = [];
-        for (let i = 0; i < opponentOp.value.length; i++) {
+        for (let i = 0; i < socket.opponentOp.length; i++) {
             guesses.push({
-                guess: opponentOp.value[i],
-                comparison: opponentCmp.value[i].comparison
+                guess: socket.opponentOp[i],
+                comparison: socket.opponentCmp[i].comparison
             });
         }
         //console.log(guesses);

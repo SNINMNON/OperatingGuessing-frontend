@@ -1,6 +1,6 @@
 <template>
     <h1>双人模式</h1>
-    <div v-if="inRoom">
+    <div v-if="socket.inRoom">
         <GameRoom @back="handleBack"/>
     </div>
     <div v-else style="text-align:center">
@@ -19,20 +19,16 @@
             </div>
             <button @click="createRoom" style="width: 12%;">创建房间</button>
         </div>
-        <div>{{ findPublicStat }}</div>
+        <div>{{ socket.findPublicStat }}</div>
     </div>
 </template>
 
 <script setup>
 import { onUnmounted, ref, nextTick } from 'vue'
-import {
-    connect,
-    sendMessage,
-    close,
-    inRoom,
-    findPublicStat
-} from './websocket'
 import GameRoom from './GameRoom.vue'
+
+import { useWebSocketStore } from './websocket'
+const socket = useWebSocketStore()
 
 defineEmits(['back']);
 
@@ -40,27 +36,27 @@ const joinRoomId = ref('')
 const createPublic = ref(false);
 
 onUnmounted(async () => {
-    await close();
+    await socket.close();
 })
 
 async function createRoom() {
-    await connect()
-    await sendMessage('create', { public: createPublic.value })
+    await socket.connect()
+    await socket.sendMessage('create', { public: createPublic.value })
 }
 
 async function joinRoom() {
-    await connect()
-    await sendMessage('join', { roomId: joinRoomId.value })
+    await socket.connect()
+    await socket.sendMessage('join', { roomId: joinRoomId.value })
 }
 
 async function find() {
-    await connect();
-    await sendMessage('find');
+    await socket.connect();
+    await socket.sendMessage('find');
 }
 
 function handleBack() {
     nextTick(() => {
-        inRoom.value = false;
+        socket.inRoom = false;
     });
 }
 </script>
