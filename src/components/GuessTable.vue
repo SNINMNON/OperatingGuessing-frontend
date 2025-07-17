@@ -1,44 +1,67 @@
 <template>
-	<div class="table-container">
-		<table class="guess-table">
-			<thead>
-				<tr>
-					<th>姓名</th>
-					<th>职业</th>
-					<th>星级</th>
-					<th>性别</th>
-					<th>阵营</th>
-					<th>站位</th>
-					<th>种族</th>
-					<th>实装时间</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(row, rowIndex) in formattedGuesses" :key="rowIndex">
-					<td v-for="(cell, cellIndex) in row.cells" :key="cellIndex" :style="{
-						backgroundColor: cell.bgColor,
-						padding: '8px',
-						whiteSpace: 'nowrap',
-						textAlign: 'center'
-					}">
-						{{ cell.value }}
-						<small>{{ cell.msg }}</small>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<NDataTable
+		:columns="columns"
+		:data="formattedGuesses"
+		:bordered="true"
+		size="small"
+		:scroll-x="800"
+		class="guess-table">
+		<template #empty>
+		</template>
+	</NDataTable>
+
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, h } from 'vue'
+import { NDataTable } from 'naive-ui'
 
 const props = defineProps({
 	guesses: Array, // Array of {guess: Operator, comparison: Comparison}
 	showComparisonOnly: Boolean, // Whether to show only comparison icons
 })
 
-// Format each cell with background color and icon based on comparison result
+// 表格字段配置
+const tableFields = [
+	{ key: 'name', title: '姓名' },
+	{ key: 'role', title: '职业' },
+	{ key: 'rarity', title: '星级' },
+	{ key: 'gender', title: '性别' },
+	{ key: 'faction', title: '阵营' },
+	{ key: 'position', title: '站位' },
+	{ key: 'race', title: '种族' },
+	{ key: 'release', title: '实装时间' }
+]
+
+// 动态生成列配置
+const columns = computed(() => {
+	const columnList = []
+	
+	for (let i = 0; i < tableFields.length; i++) {
+		const field = tableFields[i]
+		const column = {
+			title: field.title,
+			key: field.key,
+			align: 'center',
+			render: (row) => {
+				const cellData = row[field.key]
+				return h('span', [ cellData.value, ' ', cellData.msg ])
+			},
+			cellProps: (row) => {
+				const cellData = row[field.key]
+				return {
+					style: {
+						backgroundColor: cellData.bgColor
+					}
+				}
+			}
+		}
+		columnList.push(column)
+	}
+	return columnList
+})
+
+// Format each cell with background color and icon
 function formatCell(value, comparison) {
 	const [green, red, yellow] = ['#c8e6c9', '#ffcdd2', '#fff9c4']
 	const map = {
@@ -59,75 +82,48 @@ function formatCell(value, comparison) {
 	return { value, msg, bgColor }
 }
 
-// Generate table rows with formatted cells
 const formattedGuesses = computed(() => {
-	return props.guesses.map(({ guess, comparison }) => {
-		// if we're only showing comparison icons, force value to ""
-		const getValue = field =>
-			props.showComparisonOnly
-				? ""
-				: (guess ? guess[field] : "")
-		return {
-			cells: [
-				formatCell(getValue('name'), comparison.name),
-				formatCell(getValue('role'), comparison.role),
-				formatCell(getValue('rarity'), comparison.rarity),
-				formatCell(getValue('gender'), comparison.gender),
-				formatCell(getValue('faction'), comparison.faction),
-				formatCell(getValue('position'), comparison.position),
-				formatCell(getValue('race'), comparison.race),
-				formatCell(
-					props.showComparisonOnly
-						? ""
-						: (guess && guess.release ? guess.release.split('T')[0] : ""),
-					comparison.release
-				)
-			]
+	const result = []
+	
+	for (let i = 0; i < props.guesses.length; i++) {
+		const guessItem = props.guesses[i]
+		const guess = guessItem.guess
+		const comparison = guessItem.comparison
+		
+		const rowData = {}
+		
+		for (let j = 0; j < tableFields.length; j++) {
+			const field = tableFields[j]
+			let value = ""
+			
+			if (!props.showComparisonOnly && guess) {
+				if (field.key === 'release' && guess.release) {
+					value = guess.release.slice(2, 10)
+				} else {
+					value = guess[field.key] || ""
+				}
+			}
+			
+			const comparisonValue = comparison[field.key]
+			rowData[field.key] = formatCell(value, comparisonValue)
 		}
-	})
+		result.push(rowData)
+	}
+	return result
 })
 </script>
 
 <style scoped>
-.table-container {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
 
-.guess-table {
-  min-width: 600px;
-}
-
-/* 手机端表格适中缩小，保持可读性 */
 @media screen and (max-width: 768px) {
-  .table-container {
-    overflow-x: auto; /* 横向滚动 */
-  }
-  
-  .guess-table {
-    min-width: 500px;
-    font-size: 12px; 
-  }
-  
-  .guess-table th,
-  .guess-table td {
-    padding: 4px 3px !important; /* 调整内边距 */
-    font-size: 11px; /* 可读的字体大小 */
-    white-space: nowrap;
-  }
+	.guess-table {
+		font-size: 11px;
+	}
 }
 
-/* 超小屏幕稍微再缩小 */
 @media screen and (max-width: 480px) {
-  .guess-table {
-    min-width: 450px;
-    font-size: 11px;
-  }
-  
-  .guess-table th,
-  .guess-table td {
-    padding: 3px 2px;
-    font-size: 10px;
-  }
+	.guess-table {
+		font-size: 10px;
+	}
 }
 </style>

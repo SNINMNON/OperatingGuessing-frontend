@@ -7,11 +7,7 @@
         <button @click="closeTable; $emit('back')">返回</button>
     </div>
     <div v-if="socket.roomStat.gameStarted === 1" style="text-align: center;">
-        <input v-model="query" 
-            placeholder="输入干员名称..." 
-            @input="onInput" 
-            class="styled-input"/>
-        <SuggestList :suggestions="suggestions" @select="onSelect" />
+        <InputOp @select="onSelect" />
     </div>
     <div v-if="socket.roomStat.gameStarted === 1 || socket.roomStat.gameStarted === 2">
         <MultiTable />
@@ -25,9 +21,9 @@
 <script setup>
 import { onUnmounted, ref, computed } from 'vue'
 import { suggestNames } from '../../api.js'
-import SuggestList from '../InputOp.vue'
 import MultiTable from './MultiTable.vue'
 import { useWebSocketStore } from './websocket'
+import InputOp from '../InputOp.vue'
 const socket = useWebSocketStore()
 
 const readyText = computed(() => socket.roomStat.ready ? '取消准备' : '准备')

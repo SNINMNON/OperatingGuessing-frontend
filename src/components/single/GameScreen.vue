@@ -36,7 +36,6 @@ async function onSelect(name) {
 }
 
 async function onRestart() {
-    suggestions.value = [];
     guesses.value = [];
     await startGame(props.rarity);
 }
