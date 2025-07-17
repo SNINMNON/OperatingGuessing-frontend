@@ -3,7 +3,12 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+
 import pxtorem from 'postcss-pxtorem'
+
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -26,6 +31,25 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+
+    // 👇 插入自动导入插件
+    AutoImport({
+      imports: [
+        'vue',
+        {
+          'naive-ui': [
+            'useDialog',
+            'useMessage',
+            'useNotification',
+            'useLoadingBar'
+          ]
+        }
+      ]
+    }),
+
+    Components({
+      resolvers: [NaiveUiResolver()]
+    })
   ],
   css: {
     postcss: {

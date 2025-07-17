@@ -1,43 +1,34 @@
 <template>
-    <div style="text-align:center">
-        <input v-model="query" 
-            placeholder="输入干员名称..." 
-            @input="onInput" 
-            class="styled-input"/>
-        <button @click="onRestart">重新开始</button>
-        <button @click="$emit('back')">返回</button>
-        <br />
-        <span style="white-space: pre;">红/黄/绿：错误/接近/正确；       →/↑代表谜底干员的时间更晚/星级更高;            当前星级：{{showRarity()}}</span>
-        <SuggestList :suggestions="suggestions" @select="onSelect" />
+    <NFlex>
+        <InputOp @select="onSelect" />
+        <NButton type="primary" @click="onRestart">重新开始</NButton>
+        <NButton secondary @click="$emit('back')">返回</NButton>
+    </NFlex>
+    <NFlex vertical align="center">
+        <NFlex>
+            <NText>红/黄/绿：错误/接近/正确；</NText>
+            <NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
+            <NText>当前星级：{{showRarity()}}</NText>
+        </NFlex>
         <GuessTable :guesses="guesses" />
-    </div>
+    </NFlex>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { suggestNames, guessName, startGame } from '../../api.js';
-import SuggestList from '../SuggestList.vue';
+import { guessName, startGame } from '../../api.js';
+import InputOp from '../InputOp.vue';
 import GuessTable from '../GuessTable.vue';
+import { NFlex, NButton, NText } from 'naive-ui';
 
-const query = ref('');
-const suggestions = ref([]);
+
 const guesses = ref([]);
 const props = defineProps(['rarity']);
 
 defineEmits(['back']);
 
-async function onInput() {
-    if (!query.value) {
-        suggestions.value = [];
-        return;
-    }
-    suggestions.value = await suggestNames(query.value);
-}
 
 async function onSelect(name) {
-    query.value = '';
-    suggestions.value = [];
-
     const result = await guessName(name);
     if (result.error) return alert(result.error);
     
@@ -45,7 +36,6 @@ async function onSelect(name) {
 }
 
 async function onRestart() {
-    query.value = '';
     suggestions.value = [];
     guesses.value = [];
     await startGame(props.rarity);

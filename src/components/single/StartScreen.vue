@@ -1,22 +1,28 @@
 <template>
-    <div style="text-align:center">
-        <label for="rarity">选择稀有度：</label>
-        <br />
-        <select v-model="rarity">
-            <option value="0">任意</option>
-            <option v-for="n in 6" :key="n" :value="n">{{ n }}星</option>
-        </select>
-        <button @click="start">开始猜测</button>
-        <button @click="$emit('back')"> 返回 </button>
-    </div>
+    <NFlex justify="center">
+        <NSelect v-model="rarity" 
+            filterable tag 
+            :options="options" 
+            placeholder="任意星级"
+            style="width: 120px;" 
+        />
+        <NButton type="primary" @click="start">开始猜测</NButton>
+        <NButton secondary @click="$emit('back')"> 返回 </NButton>
+    </NFlex>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { startGame } from '../../api.js';
+import { NButton, NFlex, NSelect } from 'naive-ui';
 
 const emit = defineEmits(['start', 'rarity', 'back']);
 const rarity = ref('0');
+
+const options = [
+    { label: '任意星级', value: '0' },
+    ...Array.from({ length: 6 }, (_, i) => ({ label: `${i + 1}星`, value: `${i + 1}` }))
+];
 
 async function start() {
     await startGame(rarity.value);

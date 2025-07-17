@@ -25,7 +25,7 @@
 <script setup>
 import { onUnmounted, ref, computed } from 'vue'
 import { suggestNames } from '../../api.js'
-import SuggestList from '../SuggestList.vue'
+import SuggestList from '../InputOp.vue'
 import MultiTable from './MultiTable.vue'
 import { useWebSocketStore } from './websocket'
 const socket = useWebSocketStore()
