@@ -101,17 +101,17 @@ const formattedGuesses = computed(() => {
 /* 手机端表格适中缩小，保持可读性 */
 @media screen and (max-width: 768px) {
   .table-container {
-    overflow-x: auto; /* 恢复横向滚动 */
+    overflow-x: auto; /* 横向滚动 */
   }
   
   .guess-table {
-    min-width: 500px; /* 适当减少最小宽度 */
-    font-size: 12px; /* 调大字体 */
+    min-width: 500px;
+    font-size: 12px; 
   }
   
   .guess-table th,
   .guess-table td {
-    padding: 4px 3px; /* 适中的内边距 */
+    padding: 4px 3px !important; /* 调整内边距 */
     font-size: 11px; /* 可读的字体大小 */
     white-space: nowrap;
   }

@@ -4,15 +4,15 @@
         <GameRoom @back="handleBack"/>
     </div>
     <div v-else style="text-align:center">
-        <div class="button-group" style="gap:25px">
+        <div class="button-group" >
             <button @click="find" style="width: 150px;">寻找公共房间</button>
             <button @click="$emit('back')">返回首页</button>
         </div>
         <br /> 
-        <input v-model="joinRoomId" placeholder="输入房间号" style="width: 150px;" />
+        <input v-model="joinRoomId" placeholder="输入房间号" style="width: 130px;" />
         <button @click="joinRoom">加入房间</button>
-        <br /> <br />
-        <div class="button-group"  style="gap:30px;">
+        <br />
+        <div class="button-group">
             <div class="checkbox-wrapper">
                 <input type="checkbox" v-model="createPublic" id="public" />
                 <label for="public">公共游戏</label>
@@ -33,7 +33,7 @@ const socket = useWebSocketStore()
 defineEmits(['back']);
 
 const joinRoomId = ref('')
-const createPublic = ref(false);
+const createPublic = ref(true);
 
 onUnmounted(async () => {
     await socket.close();
@@ -65,6 +65,7 @@ function handleBack() {
 .button-group {
     display: flex;
     /* Adjust this value as needed */
+    gap:15px;
     justify-content: center;
 }
 </style>
