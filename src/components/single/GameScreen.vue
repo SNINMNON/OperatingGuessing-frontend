@@ -1,7 +1,7 @@
 <template>
-    <NFlex>
-        <InputOp @select="onSelect" />
+    <NFlex size="small">
         <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
+        <InputOp @select="onSelect" />
         <NButton secondary size="large"  @click="$emit('back')">返回</NButton>
     </NFlex>
     <NFlex vertical align="center">

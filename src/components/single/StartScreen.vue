@@ -1,9 +1,8 @@
 <template>
     <NFlex justify="center">
         <NSelect v-model:value="rarity" 
-            filterable tag 
+            filterable
             :options="options" 
-            placeholder="任意星级"
             size="large"
         />
         <NButton type="primary" size="large" @click="start">开始猜测</NButton>
@@ -36,6 +35,7 @@ async function start() {
 .n-select {
     width: 120px;
     height: 40px;
+    font-size: 20px
 }
 
 </style>
