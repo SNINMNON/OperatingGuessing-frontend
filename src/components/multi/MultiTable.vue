@@ -6,6 +6,19 @@
 					<NText strong>我的猜测</NText>
 				</template>
 				<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
+
+				<template #footer>
+					<NPopover trigger="hover">
+						<template #trigger>
+							<NButton>一些提示</NButton>
+						</template>
+						<NFlex>
+							<NText>红/黄/绿：错误/接近/正确；</NText>
+							<NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
+							<NText>当前星级：{{showRarity()}}</NText>
+						</NFlex>
+					</NPopover>
+				</template>
 			</NCard>
 		</div>
 		<div class="table-wrapper">
@@ -22,7 +35,7 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { NFlex, NCard, NText } from 'naive-ui';
+import { NFlex, NCard, NText, NPopover, NButton } from 'naive-ui';
 import GuessTable from '../GuessTable.vue';
 import { useWebSocketStore } from './websocket'
 

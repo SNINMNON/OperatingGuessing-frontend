@@ -121,9 +121,4 @@ const formattedGuesses = computed(() => {
 	}
 }
 
-@media screen and (max-width: 480px) {
-	.guess-table {
-		font-size: 10px;
-	}
-}
 </style>

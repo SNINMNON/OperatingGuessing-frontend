@@ -5,12 +5,21 @@
         <NButton secondary @click="$emit('back')">返回</NButton>
     </NFlex>
     <NFlex vertical align="center">
-        <NFlex>
-            <NText>红/黄/绿：错误/接近/正确；</NText>
-            <NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
-            <NText>当前星级：{{showRarity()}}</NText>
-        </NFlex>
-        <GuessTable :guesses="guesses" />
+        <NCard :bordered="false">
+            <template #footer>
+                <NPopover trigger="hover">
+                    <template #trigger>
+                        <NButton>一些提示</NButton>
+                    </template>
+                    <NFlex>
+                        <NText>红/黄/绿：错误/接近/正确；</NText>
+                        <NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
+                        <NText>当前星级：{{showRarity()}}</NText>
+                    </NFlex>
+                </NPopover>
+            </template>
+            <GuessTable :guesses="guesses" />
+        </NCard>
     </NFlex>
 </template>
 
@@ -19,7 +28,7 @@ import { ref } from 'vue';
 import { guessName, startGame } from '../../api.js';
 import InputOp from '../InputOp.vue';
 import GuessTable from '../GuessTable.vue';
-import { NFlex, NButton, NText, useMessage } from 'naive-ui';
+import { NFlex, NButton, NText, useMessage, NCard, NPopover } from 'naive-ui';
 
 const guesses = ref([]);
 const props = defineProps(['rarity']);
@@ -47,3 +56,12 @@ function showRarity() {
     return props.rarity === 0 ? '任意' : props.rarity;
 }
 </script>
+
+<style scoped>
+@media screen and (max-width: 768px) {
+	.clue {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+}
+</style>

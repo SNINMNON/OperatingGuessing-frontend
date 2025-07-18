@@ -38,3 +38,12 @@ function handleSelect(selectedValue) {
 	suggestions.value = [];
 }
 </script>
+
+<style scoped>
+@media screen and (max-width: 768px) {
+	.n-auto-complete {
+		width: 10rem !important;
+	}
+}
+</style>
+
