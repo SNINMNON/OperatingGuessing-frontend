@@ -14,7 +14,8 @@
         <NFlex justify="center">
             <MultiTable />
             <NButton v-if="socket.roomStat.gameStarted === 2" 
-                @click="closeTable">
+                @click="closeTable"
+                secondary>
                 关闭表格
             </NButton>
         </NFlex>

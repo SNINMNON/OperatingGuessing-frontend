@@ -10,7 +10,7 @@
 
         <NCard>
             <NFlex justify="center" :size="5">
-                <NInput v-model="joinRoomId" placeholder="输入房间号" style="width: 100px;" />
+                <NInput v-model:value="joinRoomId" placeholder="输入房间号" style="width: 100px;" />
                 <NButton type="primary" @click="joinRoom">加入房间</NButton>
             </NFlex>
         </NCard>
