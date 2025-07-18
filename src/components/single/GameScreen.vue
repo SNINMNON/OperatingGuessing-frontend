@@ -5,14 +5,14 @@
         <NButton secondary @click="$emit('back')">返回</NButton>
     </NFlex>
     <NFlex vertical align="center">
-        <NCard :bordered="false">
+        <NCard :bordered="false" >
             <template #footer>
-                <NPopover trigger="hover">
+                <NPopover placement="bottom-end" trigger="hover">
                     <template #trigger>
                         <NButton>一些提示</NButton>
                     </template>
-                    <NFlex>
-                        <NText>红/黄/绿：错误/接近/正确；</NText>
+                    <NFlex vertical>
+                        <NText>红/黄/绿：错误/接近/正确</NText>
                         <NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
                         <NText>当前星级：{{showRarity()}}</NText>
                     </NFlex>

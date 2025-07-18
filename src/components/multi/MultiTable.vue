@@ -1,35 +1,41 @@
 <template>
-	<NFlex class="guess-tables-flex" :wrap="false">
-		<div class="table-wrapper">
-			<NCard size="small" :bordered="false">
-				<template #header>
-					<NText strong>我的猜测</NText>
-				</template>
-				<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
+	<NFlex vertical>
+		<NFlex class="guess-tables-flex" :wrap="false">
+			<div class="table-wrapper">
+				<NCard size="small" :bordered="false">
+					<template #header>
+						<NText strong>我的猜测</NText>
+					</template>
+					<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
 
-				<template #footer>
-					<NPopover trigger="hover">
-						<template #trigger>
-							<NButton>一些提示</NButton>
-						</template>
-						<NFlex>
-							<NText>红/黄/绿：错误/接近/正确；</NText>
-							<NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
-							<NText>当前星级：{{showRarity()}}</NText>
-						</NFlex>
-					</NPopover>
+					<template #footer>
+
+					</template>
+				</NCard>
+			</div>
+			<div class="table-wrapper">
+				<NCard size="small" :bordered="false">
+					<template #header>
+						<NText strong>对手猜测</NText>
+					</template>
+					<GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly" />
+				</NCard>
+			</div>
+		</NFlex>
+		<NFlex style="transform: translateX(15px)">
+			<NPopover placement="bottom-end" trigger="hover">
+				<template #trigger>
+					<NButton>一些提示</NButton>
 				</template>
-			</NCard>
-		</div>
-		<div class="table-wrapper">
-			<NCard size="small" :bordered="false">
-				<template #header>
-					<NText strong>对手猜测</NText>
-				</template>
-				<GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly" />
-			</NCard>
-		</div>
+				<NFlex vertical>
+					<NText>红/黄/绿：错误/接近/正确；</NText>
+					<NText>→/↑代表谜底干员的时间更晚/星级更高</NText>
+				</NFlex>
+			</NPopover>
+		</NFlex>
+
 	</NFlex>
+
 </template>
 
 
@@ -62,9 +68,11 @@ function assembleOpponentGuesses() {
 </script>
 
 <style scoped>
+
 .n-card {
-    text-align: center;
+	text-align: center;
 }
+
 .guess-tables-flex {
 	width: 100%;
 }

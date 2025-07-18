@@ -4,7 +4,7 @@
 		:data="formattedGuesses"
 		:bordered="true"
 		size="small"
-		:scroll-x="800"
+		:scroll-x="scrollWidth"
 		class="guess-table">
 		<template #empty>
 		</template>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { computed, h } from 'vue'
+import { computed, h, ref, onMounted, onUnmounted } from 'vue'
 import { NDataTable } from 'naive-ui'
 
 const props = defineProps({
@@ -111,14 +111,40 @@ const formattedGuesses = computed(() => {
 	}
 	return result
 })
+
+// Responsive scroll width
+const windowWidth = ref(window.innerWidth)
+
+const scrollWidth = computed(() => {
+	if (windowWidth.value <= 480) return 320
+	if (windowWidth.value <= 768) return 400
+	return 800
+})
+function updateWindowWidth() {
+	windowWidth.value = window.innerWidth
+}
+onMounted(() => {
+	window.addEventListener('resize', updateWindowWidth)
+})
+onUnmounted(() => {
+	window.removeEventListener('resize', updateWindowWidth)
+})
 </script>
 
 <style scoped>
 
 @media screen and (max-width: 768px) {
 	.guess-table {
-		font-size: 11px;
+		font-size: 10px;
+		max-width: 400px;
+	}
+	
+	.guess-table :deep(.n-data-table-th),
+	.guess-table :deep(.n-data-table-td) {
+		padding: 5px 3px !important;
+		white-space: nowrap;
 	}
 }
+
 
 </style>
