@@ -1,20 +1,22 @@
 <template>
-	<NFlex vertical align="center" style="padding: 32px;">
-		<NH1>单人模式</NH1>
-		<StartScreen v-if="screen === 'start'" 
-			@start="screen = 'game'" 
-			@rarity="receiveRarity" 
-			@back="handleBack" 
-		/>
-		<GameScreen v-else @back="screen = 'start'" :rarity="rarity" />
-	</NFlex>
+	<NMessageProvider>
+		<NFlex vertical align="center" style="padding: 32px;">
+			<NH1>单人模式</NH1>
+			<StartScreen v-if="screen === 'start'" 
+				@start="screen = 'game'" 
+				@rarity="receiveRarity" 
+				@back="handleBack" 
+			/>
+			<GameScreen v-else @back="screen = 'start'" :rarity="rarity" />
+		</NFlex>
+	</NMessageProvider>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import StartScreen from './StartScreen.vue';
 import GameScreen from './GameScreen.vue';
-import { NFlex, NH1 } from 'naive-ui';
+import { NFlex, NH1, NMessageProvider } from 'naive-ui';
 
 const emit = defineEmits(['back']);
 

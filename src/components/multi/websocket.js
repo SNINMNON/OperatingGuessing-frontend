@@ -1,3 +1,4 @@
+import { useDeferredTrue } from 'naive-ui/es/_utils'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -14,12 +15,15 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		opponentJoined: false,
 		opponentReady: false
 	})
+	const errorMsg = ref('')
+	const infoMsg = ref('')
+	const findPublicFailed = ref(false)
 
 	const selfGuesses = ref([])
 	const opponentCmp = ref([])
 	const opponentOp = ref([])
 	const suggestions = ref([])
-	const findPublicStat = ref('')
+
 
 	const listeners = {
 		onOpen: () => console.log('Connected to server.'),
@@ -40,35 +44,48 @@ export const useWebSocketStore = defineStore('websocket', () => {
 								inRoom.value = true
 								break
 							} else {
-								alert('对手已加入房间')
+								infoMsg.value = '对手已加入房间'
 								break
 							}
-							break
+
 						case 'ready':
-							if (fromSelf) roomStat.value.ready = true
-							else roomStat.value.opponentReady = true
+							if (fromSelf) {
+								roomStat.value.ready = true
+							} else {
+								roomStat.value.opponentReady = true
+								infoMsg.value = '对手已准备'
+							}
 							break
+
 						case 'unready':
-							if (fromSelf) roomStat.value.ready = false
-							else roomStat.value.opponentReady = false
+							if (fromSelf) {
+								roomStat.value.ready = false
+							} else {
+								roomStat.value.opponentReady = false
+								infoMsg.value = '对手取消准备'
+							}
 							break
+
 						case 'start':
 							roomStat.value.gameStarted = 1
-							alert('游戏开始！')
 							break
+
 						case 'win':
 							roomStat.value.gameStarted = 2
 							roomStat.value.opponentJoined = true
 							roomStat.value.opponentReady = false
 							roomStat.value.ready = false
-							alert(fromSelf ? '你赢了🎉' : '你输了🥲')
+
+							infoMsg.value = fromSelf ? '你赢了🎉' : '你输了🥲'
 							break
+
 						case 'disconnect':
 							roomStat.value.gameStarted = 2
 							roomStat.value.opponentJoined = false
 							roomStat.value.opponentReady = false
 							roomStat.value.ready = false
-							alert('对手已断开连接')
+							
+							errorMsg.value = '对手已断开连接'
 							break
 					}
 					break
@@ -80,12 +97,11 @@ export const useWebSocketStore = defineStore('websocket', () => {
 							break
 						case 'no available public room':
 							close()
-							findPublicStat.value = '没有可用的公共房间，请稍后再试'
-							setTimeout(() => { findPublicStat.value = '' }, 3000)
+							findPublicFailed.value = true
 							break
 						default:
 							close()
-							alert(`错误: ${msg.data.message}`)
+							errorMsg.value = `错误: ${msg.data.message}`
 							break
 					}
 					break
@@ -202,7 +218,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		// State
 		currentUserId, roomId, inRoom, roomStat,
 		selfGuesses, opponentCmp, opponentOp,
-		suggestions, findPublicStat,
+		suggestions, errorMsg, infoMsg, findPublicFailed,
 
 		// Methods
 		connect, sendMessage, close,

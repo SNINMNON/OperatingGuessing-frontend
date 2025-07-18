@@ -19,32 +19,31 @@ import { ref } from 'vue';
 import { guessName, startGame } from '../../api.js';
 import InputOp from '../InputOp.vue';
 import GuessTable from '../GuessTable.vue';
-import { NFlex, NButton, NText } from 'naive-ui';
-
+import { NFlex, NButton, NText, useMessage } from 'naive-ui';
 
 const guesses = ref([]);
 const props = defineProps(['rarity']);
 
 defineEmits(['back']);
-
+const message = useMessage();
 
 async function onSelect(name) {
     const result = await guessName(name);
     if (result.error) return alert(result.error);
     
     guesses.value.push(result);
+    if (result.correct) {
+        message.success('猜对了！')
+    }
 }
 
 async function onRestart() {
     guesses.value = [];
     await startGame(props.rarity);
+    message.info('已按当前稀有度重新设置谜底干员')
 }
 
 function showRarity() {
-    if (props.rarity === '0') {
-        return '任意';
-    } else {
-        return props.rarity;
-    }
+    return props.rarity === 0 ? '任意' : props.rarity;
 }
 </script>

@@ -1,19 +1,31 @@
 <template>
-	<div class="guess‑tables‑flex">
-		<div class="table‑wrapper">
-			<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
+	<NFlex class="guess-tables-flex" :wrap="false">
+		<div class="table-wrapper">
+			<NCard size="small" :bordered="false">
+				<template #header>
+					<NText strong>我的猜测</NText>
+				</template>
+				<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
+			</NCard>
 		</div>
-		<div class="table‑wrapper">
-			<GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly" />
+		<div class="table-wrapper">
+			<NCard size="small" :bordered="false">
+				<template #header>
+					<NText strong>对手猜测</NText>
+				</template>
+				<GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly" />
+			</NCard>
 		</div>
-	</div>
+	</NFlex>
 </template>
 
 
 <script setup>
 import { computed, ref } from 'vue';
+import { NFlex, NCard, NText } from 'naive-ui';
 import GuessTable from '../GuessTable.vue';
 import { useWebSocketStore } from './websocket'
+
 const socket = useWebSocketStore()
 
 const opponentGuesses = computed(() => assembleOpponentGuesses())
@@ -31,56 +43,34 @@ function assembleOpponentGuesses() {
 				comparison: socket.opponentCmp[i].comparison
 			});
 		}
-		//console.log(guesses);
 		return guesses
 	}
 }
 </script>
 
 <style scoped>
-.guess‑tables‑flex {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
+.n-card {
+    text-align: center;
 }
-
-.table‑wrapper {
-	flex: 1 1 calc(50% - 16px);
-	min-width: 250px;
-}
-
-.table‑wrapper table {
+.guess-tables-flex {
 	width: 100%;
-	font-size: 12px;
 }
 
-.table‑wrapper th,
-.table‑wrapper td {
-	padding: 5px 6px;
-	white-space: nowrap;
+.table-wrapper {
+	flex: 1;
+	min-width: 250px;
 }
 
 /* 手机端垂直排列 */
 @media screen and (max-width: 768px) {
-	.guess‑tables‑flex {
-		flex-direction: column; /* 改为垂直排列 */
-		gap: 18rem;
+	.guess-tables-flex {
+		flex-direction: column !important;
+		gap: 16px !important;
 	}
 
-	.table‑wrapper {
-		flex: none; /* 取消flex伸缩 */
-		width: 100%; /* 占满宽度 */
+	.table-wrapper {
+		width: 100%;
 		min-width: auto;
-	}
-
-	.table‑wrapper:first-child {
-		/* 第一个表格在上方 */
-		order: 1;
-	}
-
-	.table‑wrapper:last-child {
-		/* 第二个表格在中间 */
-		order: 2;
 	}
 }
 </style>

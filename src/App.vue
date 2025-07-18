@@ -1,5 +1,6 @@
 <template>
 	<NConfigProvider>
+	<NMessageProvider>
 		<div v-if="mode === 'choose'">
 			<NFlex vertical align="center" style="padding: 32px;">
 				<NH1>猜干员 - 明日方舟</NH1>
@@ -21,6 +22,7 @@
 		<div v-else-if="mode === 'multi'">
 			<MultiPlayerStart @back="mode = 'choose'" />
 		</div>
+	</NMessageProvider>
 	</NConfigProvider>
 </template>
 
@@ -28,7 +30,7 @@
 import { ref } from 'vue';
 import SinglePlayerStart from './components/single/SinglePlayerStart.vue';
 import MultiPlayerStart from './components/multi/MultiPlayerStart.vue';
-import { NFlex, NButton, NConfigProvider, NH1, NText, NA } from 'naive-ui';
+import { NFlex, NButton, NConfigProvider, NH1, NText, NA, NMessageProvider } from 'naive-ui';
 
 const mode = ref('choose');
 

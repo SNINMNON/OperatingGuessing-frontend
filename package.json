@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vicons/ionicons4": "^0.13.0",
     "amfe-flexible": "^2.2.1",
     "naive-ui": "^2.42.0",
     "pinia": "^3.0.3",

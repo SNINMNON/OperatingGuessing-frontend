@@ -4,7 +4,7 @@
 		:options="autoCompleteOptions" 
 		placeholder="输入干员名称..."
 		@select="handleSelect"
-		@input="handleInput"
+		@update:value="handleInput"
 		clear-after-select
 		style="width: 200px;" 
 	/>

@@ -1,43 +1,39 @@
 <template>
-    <h1>双人模式</h1>
-    <div v-if="socket.inRoom">
-        <GameRoom @back="handleBack"/>
-    </div>
-    <div v-else style="text-align:center">
-        <div class="button-group" >
-            <button @click="find" style="width: 150px;">寻找公共房间</button>
-            <button @click="$emit('back')">返回首页</button>
-        </div>
-        <br /> 
-        <input v-model="joinRoomId" placeholder="输入房间号" style="width: 130px;" />
-        <button @click="joinRoom">加入房间</button>
-        <br />
-        <div class="button-group">
-            <div class="checkbox-wrapper">
-                <input type="checkbox" v-model="createPublic" id="public" />
-                <label for="public">公共游戏</label>
-            </div>
-            <button @click="createRoom">创建房间</button>
-        </div>
-        <div>{{ socket.findPublicStat }}</div>
-    </div>
+    <GameRoom v-if="socket.inRoom" @back="handleBack" />
+    <NFlex v-else vertical align="center" style="padding: 32px;">
+        <NH1 style="text-align: center;">双人模式</NH1>
+
+        <NFlex justify="center" :size="10">
+            <NButton type="primary" @click="find">寻找公共房间</NButton>
+            <NButton secondary @click="$emit('back')">返回</NButton>
+        </NFlex>
+
+        <NCard>
+            <NFlex justify="center" :size="5">
+                <NInput v-model="joinRoomId" placeholder="输入房间号" style="width: 100px;" />
+                <NButton type="primary" @click="joinRoom">加入房间</NButton>
+            </NFlex>
+        </NCard>
+
+        <NCard size="small">
+            <NCheckbox v-model:checked="createPublic">公共游戏</NCheckbox>
+            <NButton type="primary" @click="createRoom">创建房间</NButton>
+        </NCard>
+    </NFlex>
 </template>
 
 <script setup>
-import { onUnmounted, ref, nextTick } from 'vue'
+import { onUnmounted, ref, nextTick, watch } from 'vue'
 import GameRoom from './GameRoom.vue'
-
 import { useWebSocketStore } from './websocket'
+import { NFlex, NH1, NButton, NInput, NCheckbox, useMessage, NCard } from 'naive-ui';
 const socket = useWebSocketStore()
+const message = useMessage()
 
 defineEmits(['back']);
 
 const joinRoomId = ref('')
 const createPublic = ref(true);
-
-onUnmounted(async () => {
-    await socket.close();
-})
 
 async function createRoom() {
     await socket.connect()
@@ -54,18 +50,27 @@ async function find() {
     await socket.sendMessage('find');
 }
 
+watch(() => socket.findPublicFailed, (newVal) => {
+    if (newVal) {
+        socket.findPublicFailed = false
+        message.error('没有可用的公共房间，请稍后再试')
+    }
+})
+
 function handleBack() {
     nextTick(() => {
         socket.inRoom = false;
     });
 }
+
+onUnmounted(async () => {
+    await socket.close();
+})
 </script>
 
 <style scoped>
-.button-group {
-    display: flex;
-    /* Adjust this value as needed */
-    gap:15px;
-    justify-content: center;
+.n-card {
+    text-align: center;
+    max-width: 250px;
 }
 </style>

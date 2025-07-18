@@ -1,6 +1,6 @@
 <template>
     <NFlex justify="center">
-        <NSelect v-model="rarity" 
+        <NSelect v-model:value="rarity" 
             filterable tag 
             :options="options" 
             placeholder="任意星级"
@@ -17,11 +17,11 @@ import { startGame } from '../../api.js';
 import { NButton, NFlex, NSelect } from 'naive-ui';
 
 const emit = defineEmits(['start', 'rarity', 'back']);
-const rarity = ref('0');
+const rarity = ref(0);
 
 const options = [
-    { label: '任意星级', value: '0' },
-    ...Array.from({ length: 6 }, (_, i) => ({ label: `${i + 1}星`, value: `${i + 1}` }))
+    { label: '任意星级', value: 0 },
+    ...Array.from({ length: 6 }, (_, i) => ({ label: `${i + 1}星`, value: i + 1 }))
 ];
 
 async function start() {
