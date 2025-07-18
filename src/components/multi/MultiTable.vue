@@ -23,7 +23,7 @@
 			</div>
 		</NFlex>
 		<NFlex style="transform: translateX(15px)">
-			<NPopover placement="bottom-end" trigger="hover">
+			<NPopover placement="bottom-start" trigger="hover">
 				<template #trigger>
 					<NButton>一些提示</NButton>
 				</template>

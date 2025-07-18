@@ -7,7 +7,7 @@
     <NFlex vertical align="center">
         <NCard :bordered="false" >
             <template #footer>
-                <NPopover placement="bottom-end" trigger="hover">
+                <NPopover placement="bottom-start" trigger="hover">
                     <template #trigger>
                         <NButton>一些提示</NButton>
                     </template>
