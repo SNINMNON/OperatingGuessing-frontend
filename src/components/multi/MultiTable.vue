@@ -25,7 +25,7 @@
 		<NFlex style="transform: translateX(15px)">
 			<NPopover placement="bottom-start" trigger="hover">
 				<template #trigger>
-					<NButton>一些提示</NButton>
+					<NButton size="large">一些提示</NButton>
 				</template>
 				<NFlex vertical>
 					<NText>红/黄/绿：错误/接近/正确；</NText>

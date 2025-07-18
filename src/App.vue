@@ -36,3 +36,12 @@ const mode = ref('choose');
 
 </script>
 
+<style scoped>
+
+.n-button {
+    width: 180px;
+	height: 60px;
+	font-size: 20px
+}
+
+</style>

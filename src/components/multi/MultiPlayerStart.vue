@@ -4,20 +4,20 @@
         <NH1 style="text-align: center;">双人模式</NH1>
 
         <NFlex justify="center" :size="10">
-            <NButton type="primary" @click="find">寻找公共房间</NButton>
-            <NButton secondary @click="$emit('back')">返回</NButton>
+            <NButton type="primary" size="large" @click="find">寻找公共房间</NButton>
+            <NButton secondary size="large" @click="$emit('back')">返回</NButton>
         </NFlex>
 
         <NCard>
             <NFlex justify="center" :size="5">
-                <NInput v-model:value="joinRoomId" placeholder="输入房间号" style="width: 100px;" />
-                <NButton type="primary" @click="joinRoom">加入房间</NButton>
+                <NInput v-model:value="joinRoomId" placeholder="输入房间号" style="width: 120px;" />
+                <NButton type="primary" size="large" @click="joinRoom">加入房间</NButton>
             </NFlex>
         </NCard>
 
         <NCard size="small">
-            <NCheckbox v-model:checked="createPublic">公共游戏</NCheckbox>
-            <NButton type="primary" @click="createRoom">创建房间</NButton>
+            <NCheckbox v-model:checked="createPublic" size="large">公共游戏</NCheckbox>
+            <NButton type="primary" size="large" @click="createRoom">创建房间</NButton>
         </NCard>
     </NFlex>
 </template>
@@ -69,8 +69,12 @@ onUnmounted(async () => {
 </script>
 
 <style scoped>
+.n-input {
+    font-size: 16px;
+}
+
 .n-card {
     text-align: center;
-    max-width: 250px;
+    max-width: 300px;
 }
 </style>

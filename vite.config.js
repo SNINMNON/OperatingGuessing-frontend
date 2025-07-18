@@ -48,7 +48,12 @@ export default defineConfig({
     }),
 
     Components({
-      resolvers: [NaiveUiResolver()]
+      resolvers: [
+        NaiveUiResolver({
+          importStyle: false, // Don't auto-import styles
+          resolveIcons: false // Don't auto-resolve icons
+        })
+      ]
     })
   ],
   css: {
@@ -69,6 +74,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'naive-ui': ['naive-ui'],
+          'vue-vendor': ['vue', 'pinia']
+        }
+      }
+    }
+  }
 })
+
+
 
 

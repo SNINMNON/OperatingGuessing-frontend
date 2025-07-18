@@ -7,14 +7,14 @@
 		:scroll-x="scrollWidth"
 		class="guess-table">
 		<template #empty>
+			<NH3 style="color: #c2c2c2;">猜测记录</NH3>
 		</template>
 	</NDataTable>
-
 </template>
 
 <script setup>
 import { computed, h, ref, onMounted, onUnmounted } from 'vue'
-import { NDataTable } from 'naive-ui'
+import { NDataTable, NH3 } from 'naive-ui'
 
 const props = defineProps({
 	guesses: Array, // Array of {guess: Operator, comparison: Comparison}

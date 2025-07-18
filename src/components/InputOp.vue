@@ -7,6 +7,7 @@
 		@update:value="handleInput"
 		clear-after-select
 		style="width: 200px;" 
+		size="large"
 	/>
 </template>
 

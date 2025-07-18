@@ -6,7 +6,7 @@
                 <InputOp @select="onSelect" />
             </div>
             <NText v-else>对手状态：{{ opponentStat }} </NText>
-            <NButton secondary @click="closeTable; $emit('back')">返回</NButton>
+            <NButton secondary size="large" @click="closeTable; $emit('back')">返回</NButton>
         </NFlex>
     </NFlex>
 
@@ -15,7 +15,7 @@
             <MultiTable />
             <NButton v-if="socket.roomStat.gameStarted === 2" 
                 @click="closeTable"
-                secondary>
+                secondary size="large" >
                 关闭表格
             </NButton>
         </NFlex>
@@ -25,7 +25,7 @@
         <NButton @click="switchReady" 
             :type="readyStyle"
             :disabled="!socket.roomStat.opponentJoined"
-            round secondary>
+            round secondary size="large">
             
             {{readyText}}
         </NButton>

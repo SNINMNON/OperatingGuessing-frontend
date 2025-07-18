@@ -1,15 +1,15 @@
 <template>
     <NFlex>
         <InputOp @select="onSelect" />
-        <NButton type="primary" @click="onRestart">重新开始</NButton>
-        <NButton secondary @click="$emit('back')">返回</NButton>
+        <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
+        <NButton secondary size="large"  @click="$emit('back')">返回</NButton>
     </NFlex>
     <NFlex vertical align="center">
         <NCard :bordered="false" >
             <template #footer>
                 <NPopover placement="bottom-start" trigger="hover">
                     <template #trigger>
-                        <NButton>一些提示</NButton>
+                        <NButton size="large" >一些提示</NButton>
                     </template>
                     <NFlex vertical>
                         <NText>红/黄/绿：错误/接近/正确</NText>
@@ -64,4 +64,5 @@ function showRarity() {
         gap: 8px !important;
     }
 }
+
 </style>
