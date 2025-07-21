@@ -69,10 +69,6 @@ onUnmounted(async () => {
 </script>
 
 <style scoped>
-.n-input {
-    font-size: 16px;
-}
-
 .n-card {
     text-align: center;
     max-width: 300px;

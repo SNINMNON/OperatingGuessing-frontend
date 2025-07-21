@@ -1,7 +1,13 @@
 <template>
-	<NAutoComplete v-model:value="value" :options="autoCompleteOptions" placeholder="输入干员名称..." @select="handleSelect"
-		@update:value="handleInput" clear-after-select style="max-width: 160px;" size="large"
-		:render-label="renderLabel" />
+	<NAutoComplete v-model:value="value" 
+			:options="autoCompleteOptions" 
+			placeholder="输入干员名称..." 
+			@select="handleSelect"
+			@update:value="handleInput" 
+			clear-after-select 
+			style="width: 300px;" 
+			size="large"
+			/>
 </template>
 
 <script setup>
@@ -13,13 +19,6 @@ const emit = defineEmits(['select']);
 
 const value = ref('');
 const suggestions = ref([]);
-
-// 自定义渲染字体大小
-const renderLabel = (option) => h('NText', {
-    style: {
-        fontSize: '16px'
-    }
-}, option.label);
 
 const autoCompleteOptions = computed(() => {
 	return suggestions.value.map(name => ({
@@ -46,7 +45,7 @@ function handleSelect(selectedValue) {
 <style scoped>
 @media screen and (max-width: 768px) {
 	.n-auto-complete {
-		width: 8rem !important;
+		width: 18rem !important;
 	}
 }
 </style>

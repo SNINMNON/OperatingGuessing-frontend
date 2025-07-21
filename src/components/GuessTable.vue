@@ -4,7 +4,6 @@
 		:data="formattedGuesses"
 		:bordered="true"
 		size="small"
-		:scroll-x="scrollWidth"
 		class="guess-table">
 		<template #empty>
 			<NH3 style="color: #c2c2c2;">猜测记录</NH3>
@@ -117,7 +116,7 @@ const windowWidth = ref(window.innerWidth)
 
 const scrollWidth = computed(() => {
 	if (windowWidth.value <= 480) return 320
-	if (windowWidth.value <= 768) return 400
+	if (windowWidth.value <= 768) return 375
 	return 800
 })
 function updateWindowWidth() {
@@ -132,11 +131,15 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.guess-table {
+	width: 800px;
+	font-size: 14px !important;
+}
 
 @media screen and (max-width: 768px) {
 	.guess-table {
-		font-size: 10px;
-		max-width: 400px;
+		font-size: 12px !important;
+		max-width: 90vw;
 	}
 	
 	.guess-table :deep(.n-data-table-th),
@@ -145,6 +148,4 @@ onUnmounted(() => {
 		white-space: nowrap;
 	}
 }
-
-
 </style>

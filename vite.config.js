@@ -13,6 +13,7 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 // https://vite.dev/config/
 export default defineConfig({
   server: {
+    //host: '0.0.0.0',
     port: 3000,
     open: true, // auto open browser
     proxy: {
@@ -32,7 +33,6 @@ export default defineConfig({
     vue(),
     vueDevTools(),
 
-    // 👇 插入自动导入插件
     AutoImport({
       imports: [
         'vue',
@@ -59,13 +59,13 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        pxtorem({
-          rootValue: 16, // 改为标准的16px
-          propList: ['*'],
-          selectorBlackList: ['.ignore', '.hairlines'],
-          minPixelValue: 1,
-          mediaQuery: true, // 改为true，允许媒体查询转换
-        })
+        // pxtorem({
+        //   rootValue: 14, // 改为标准的16px
+        //   propList: ['*'],
+        //   selectorBlackList: ['.ignore', '.hairlines'],
+        //   minPixelValue: 0,
+        //   mediaQuery: true, // 改为true，允许媒体查询转换
+        // })
       ]
     }
   },

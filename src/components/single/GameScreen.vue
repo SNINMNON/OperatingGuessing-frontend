@@ -1,7 +1,7 @@
 <template>
-    <NFlex size="small">
-        <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
+    <NFlex size="small" justify="center">
         <InputOp @select="onSelect" />
+        <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
         <NButton secondary size="large"  @click="$emit('back')">返回</NButton>
     </NFlex>
     <NFlex vertical align="center">
@@ -59,10 +59,7 @@ function showRarity() {
 
 <style scoped>
 @media screen and (max-width: 768px) {
-	.clue {
-        flex-direction: column !important;
-        gap: 8px !important;
-    }
+	
 }
 
 </style>

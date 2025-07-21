@@ -19,8 +19,8 @@ const emit = defineEmits(['start', 'rarity', 'back']);
 const rarity = ref(0);
 
 const options = [
-    { label: '任意星级', value: 0, style:"font-size: 16px;" },
-    ...Array.from({ length: 6 }, (_, i) => ({ label: `${i + 1}星`, value: i + 1, style:"font-size: 16px;" }))
+    { label: '任意星级', value: 0 },
+    ...Array.from({ length: 6 }, (_, i) => ({ label: `${i + 1}星`, value: i + 1 }))
 ];
 
 async function start() {
@@ -35,7 +35,6 @@ async function start() {
 .n-select {
     width: 120px;
     height: 40px;
-    font-size: 20px
 }
 
 </style>
