@@ -1,5 +1,5 @@
 <template>
-    <NFlex justify="center">
+    <NFlex justify="center" size="small">
         <NSelect v-model:value="rarity" 
             filterable
             :options="options" 

@@ -2,9 +2,9 @@
 	<NFlex vertical>
 		<NFlex class="guess-tables-flex" :wrap="false">
 			<div class="table-wrapper">
-				<NCard size="small" :bordered="false">
+				<NCard size="small" :bordered="false" header-style="padding: 0px">
 					<template #header>
-						<NText strong>我的猜测</NText>
+						<NText strong class="small-header">我的猜测</NText>
 					</template>
 					<GuessTable :guesses="socket.selfGuesses" :show-comparison-only="false" />
 
@@ -14,9 +14,9 @@
 				</NCard>
 			</div>
 			<div class="table-wrapper">
-				<NCard size="small" :bordered="false">
+				<NCard size="small" :bordered="false"  header-style="padding: 0px">
 					<template #header>
-						<NText strong>对手猜测</NText>
+						<NText strong class="small-header">对手猜测</NText>
 					</template>
 					<GuessTable :guesses="opponentGuesses" :show-comparison-only="showComparisonOnly" />
 				</NCard>
@@ -71,6 +71,11 @@ function assembleOpponentGuesses() {
 
 .n-card {
 	text-align: center;
+	padding: 0;
+}
+
+.small-header {
+	font-size: 14px !important;
 }
 
 .guess-tables-flex {
@@ -86,7 +91,7 @@ function assembleOpponentGuesses() {
 @media screen and (max-width: 768px) {
 	.guess-tables-flex {
 		flex-direction: column !important;
-		gap: 16px !important;
+		gap: 0px !important;
 	}
 
 	.table-wrapper {

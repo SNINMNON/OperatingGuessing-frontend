@@ -1,4 +1,3 @@
-import { useDeferredTrue } from 'naive-ui/es/_utils'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -28,17 +27,16 @@ export const useWebSocketStore = defineStore('websocket', () => {
 	const listeners = {
 		onOpen: () => console.log('Connected to server.'),
 		onMessage: (msg) => {
-			console.log('Received message:', msg.type)
+			// console.log('Received message:', msg.type)
 			const fromSelf = msg.userId === currentUserId.value
 
 			switch (msg.type) {
 				case 'broadcast':
 					switch (msg.data.message) {
 						case 'join':
-							roomStat.value.gameStarted = 0
 							roomStat.value.opponentJoined = true
 							roomStat.value.opponentReady = false
-							roomStat.value.ready = false
+							resetTable()
 							if (fromSelf) {
 								roomId.value = msg.data.roomId
 								inRoom.value = true
@@ -141,13 +139,10 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		},
 		onClose: () => {
 			inRoom.value = false
-			roomStat.value.gameStarted = 2
 			roomStat.value.opponentJoined = false
 			roomStat.value.opponentReady = false
-			roomStat.value.ready = false
-			selfGuesses.value = []
-			opponentCmp.value = []
-			opponentOp.value = []
+			resetTable()
+			roomStat.value.gameStarted = 2 // overrides value
 			console.log('WebSocket closed.')
 		},
 		onError: (e) => {
@@ -214,6 +209,14 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		})
 	}
 
+	function resetTable() {
+		roomStat.value.ready = false
+		roomStat.value.gameStarted = 0
+		selfGuesses.value = []
+		opponentCmp.value = []
+		opponentOp.value = []
+	}
+
 	return {
 		// State
 		currentUserId, roomId, inRoom, roomStat,
@@ -221,6 +224,6 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		suggestions, errorMsg, infoMsg, findPublicFailed,
 
 		// Methods
-		connect, sendMessage, close,
+		connect, sendMessage, close, resetTable
 	}
 })

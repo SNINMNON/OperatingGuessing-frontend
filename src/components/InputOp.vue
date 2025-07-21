@@ -45,7 +45,7 @@ function handleSelect(selectedValue) {
 <style scoped>
 @media screen and (max-width: 768px) {
 	.n-auto-complete {
-		width: 18rem !important;
+		width: 14rem !important;
 	}
 }
 </style>

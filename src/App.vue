@@ -38,7 +38,7 @@ const mode = ref('choose');
 </script>
 
 <style>
-*:not(.n-h1,.big-button *, .n-data-table *) {
+*:not(.n-h1,.big-button *, .n-data-table *, .small-header) {
 	font-size: 16px;
 }
 </style>

@@ -1,8 +1,10 @@
 <template>
-    <NFlex size="small" justify="center">
+    <NFlex class="game-button-flex" size="small" justify="center" align="center">
         <InputOp @select="onSelect" />
-        <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
-        <NButton secondary size="large"  @click="$emit('back')">返回</NButton>
+        <NFlex size="small" justify="center" align="center">
+            <NButton type="primary" size="large" @click="onRestart">重新开始</NButton>
+            <NButton secondary size="large"  @click="$emit('back')">返回</NButton>
+        </NFlex>
     </NFlex>
     <NFlex vertical align="center">
         <NCard :bordered="false" >
@@ -59,7 +61,8 @@ function showRarity() {
 
 <style scoped>
 @media screen and (max-width: 768px) {
-	
+	.game-button-flex {
+        flex-direction: column !important;
+    }
 }
-
 </style>

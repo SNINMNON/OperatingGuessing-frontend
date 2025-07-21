@@ -6,7 +6,7 @@
                 <InputOp @select="onSelect" />
             </div>
             <NText v-else>对手状态：{{ opponentStat }} </NText>
-            <NButton secondary size="large" @click="closeTable; $emit('back')">返回</NButton>
+            <NButton secondary size="large" @click="socket.resetTable; $emit('back')">返回</NButton>
         </NFlex>
     </NFlex>
 
@@ -14,7 +14,7 @@
         <NFlex justify="center">
             <MultiTable />
             <NButton v-if="socket.roomStat.gameStarted === 2" 
-                @click="closeTable"
+                @click="socket.resetTable"
                 secondary size="large" >
                 关闭表格
             </NButton>
@@ -96,13 +96,6 @@ async function onSelect(name) {
     suggestions.value = [];
 }
 
-function closeTable() {
-    socket.roomStat.ready = false;
-    socket.roomStat.gameStarted = 0
-    socket.selfGuesses = [];
-    socket.opponentOp = [];
-    socket.opponentCmp = [];
-}
 
 onUnmounted(async () => {
     await socket.close();
