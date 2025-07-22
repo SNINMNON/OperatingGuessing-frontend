@@ -23,6 +23,11 @@
             <GuessTable :guesses="guesses" />
         </NCard>
     </NFlex>
+    <GameOverModal :show-modal="showModal" 
+        :message="modalMsg" 
+        :answer="answer" 
+        @close="onModalClose" 
+        type="success"/>
 </template>
 
 <script setup>
@@ -31,6 +36,7 @@ import { guessName, startGame } from '../../api.js';
 import InputOp from '../InputOp.vue';
 import GuessTable from '../GuessTable.vue';
 import { NFlex, NButton, NText, useMessage, NCard, NPopover } from 'naive-ui';
+import GameOverModal from '../GameOverModal.vue';
 
 const guesses = ref([]);
 const props = defineProps(['rarity']);
@@ -38,13 +44,25 @@ const props = defineProps(['rarity']);
 defineEmits(['back']);
 const message = useMessage();
 
+const showModal = ref(false);
+const modalMsg = ref('');
+const answer = ref({});
+
+function onModalClose() {
+    showModal.value = false;
+    modalMsg.value = '';
+    answer.value = {};
+}
+
 async function onSelect(name) {
     const result = await guessName(name);
     if (result.error) return alert(result.error);
     
     guesses.value.push(result);
     if (result.correct) {
-        message.success('猜对了！')
+        modalMsg.value = '你猜对了'
+        answer.value = result.guess
+        showModal.value = true
     }
 }
 

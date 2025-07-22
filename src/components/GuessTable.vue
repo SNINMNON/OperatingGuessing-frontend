@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { computed, h, ref, onMounted, onUnmounted } from 'vue'
+import { computed, h, ref } from 'vue'
 import { NDataTable, NH3 } from 'naive-ui'
 
 const props = defineProps({
@@ -109,24 +109,6 @@ const formattedGuesses = computed(() => {
 		result.push(rowData)
 	}
 	return result
-})
-
-// Responsive scroll width
-const windowWidth = ref(window.innerWidth)
-
-const scrollWidth = computed(() => {
-	if (windowWidth.value <= 480) return 320
-	if (windowWidth.value <= 768) return 375
-	return 800
-})
-function updateWindowWidth() {
-	windowWidth.value = window.innerWidth
-}
-onMounted(() => {
-	window.addEventListener('resize', updateWindowWidth)
-})
-onUnmounted(() => {
-	window.removeEventListener('resize', updateWindowWidth)
 })
 </script>
 

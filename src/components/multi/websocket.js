@@ -23,6 +23,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 	const opponentOp = ref([])
 	const suggestions = ref([])
 
+	const answer = ref({})
 
 	const listeners = {
 		onOpen: () => console.log('Connected to server.'),
@@ -74,7 +75,9 @@ export const useWebSocketStore = defineStore('websocket', () => {
 							roomStat.value.opponentReady = false
 							roomStat.value.ready = false
 
-							infoMsg.value = fromSelf ? '你赢了🎉' : '你输了🥲'
+							infoMsg.value = fromSelf ? '你赢了' : '你输了'
+							msg.data.answer.release = new Date(msg.data.answer.release).toISOString()
+							answer.value = msg.data.answer
 							break
 
 						case 'disconnect':
@@ -222,6 +225,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
 		currentUserId, roomId, inRoom, roomStat,
 		selfGuesses, opponentCmp, opponentOp,
 		suggestions, errorMsg, infoMsg, findPublicFailed,
+		answer,
 
 		// Methods
 		connect, sendMessage, close, resetTable

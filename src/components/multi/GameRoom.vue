@@ -30,6 +30,11 @@
             {{readyText}}
         </NButton>
     </div>
+    <GameOverModal :show-modal="showModal" 
+        :message="modalMsg" 
+        :answer="answer" 
+        @close="onModalClose" 
+        :type="modalType"/>
 </template>
 
 <script setup>
@@ -38,10 +43,23 @@ import MultiTable from './MultiTable.vue'
 import { useWebSocketStore } from './websocket'
 import InputOp from '../InputOp.vue'
 import { NFlex, NH1, useMessage, NButton, NCard, NText } from 'naive-ui'
+import GameOverModal from '../GameOverModal.vue';
 
 const message = useMessage()
 const socket = useWebSocketStore()
 const emit = defineEmits(['back'])
+
+const showModal = ref(false);
+const modalMsg = ref('');
+const answer = ref({});
+const modalType = ref('');
+
+function onModalClose() {
+    showModal.value = false;
+    modalMsg.value = '';
+    answer.value = {};
+    modalType.value = '';
+}
 
 // 监听游戏状态变化
 watch(() => socket.roomStat.gameStarted, (newVal, oldVal) => {
@@ -61,8 +79,15 @@ watch(() => socket.errorMsg, (newVal) => {
 // 监听info信息
 watch(() => socket.infoMsg, (newVal) => {
     if (newVal) {
-        message.info(newVal)
-        socket.infoMsg = '' // 清除成功信息
+        if (newVal === '你赢了' || newVal === '你输了') {
+            modalMsg.value = newVal
+            answer.value = socket.answer
+            showModal.value = true
+            modalType.value = (newVal === '你赢了') ? 'success' : 'danger'
+        } else {
+            message.info(newVal)
+            socket.infoMsg = ''
+        }   
     }
 })
 
